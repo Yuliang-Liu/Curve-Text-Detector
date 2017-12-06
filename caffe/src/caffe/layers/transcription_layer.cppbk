@@ -1,0 +1,389 @@
+#include <algorithm>
+#include <functional>
+#include <utility>
+#include <vector>
+#include <string>
+#include <cmath>
+#include <limits>
+
+#include "caffe/layer.hpp"
+#include "caffe/util/io.hpp"
+#include "caffe/util/math_functions.hpp"
+#include "caffe/layers/loss_layer.hpp"
+#include "caffe/util/LogMath.hpp"
+#include "caffe/util/ctc.h"
+
+extern int gbcodes_text_char[];
+
+namespace caffe {
+
+
+
+template <typename Dtype>
+void TranscriptionLossLayer<Dtype>::LayerSetUp(
+    const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
+
+
+  LossLayer<Dtype>::LayerSetUp(bottom, top);
+  LayerParameter softmax_param(this->layer_param_);
+  softmax_param.set_type("Softmax");
+  softmax_layer_ = LayerRegistry<Dtype>::CreateLayer(softmax_param);
+  softmax_bottom_vec_.clear();
+  softmax_bottom_vec_.push_back(bottom[0]);
+  softmax_top_vec_.clear();
+  softmax_top_vec_.push_back(&prob_);
+  softmax_layer_->SetUp(softmax_bottom_vec_, softmax_top_vec_);
+
+  const int tmpInputlen = bottom[0]->shape(0);
+  const int tmpFrame      = bottom[0]->shape(1);
+  const int tmpClass    = bottom[0]->shape(2);
+
+  gradInput_.Reshape(tmpInputlen, tmpFrame, tmpClass,1);
+  input_.Reshape(tmpInputlen, tmpFrame, tmpClass,1);
+
+  has_ignore_label_ =
+    this->layer_param_.loss_param().has_ignore_label();
+  if (has_ignore_label_) {
+    ignore_label_ = this->layer_param_.loss_param().ignore_label();
+    ignore_label_num_ = 0;
+  }
+  normalize_ = this->layer_param_.loss_param().normalize();
+
+  // cudaStreamCreate(&stream_);
+  info_.loc = CTC_CPU; 
+  info_.num_threads = 16;
+  info_.blank_label = 0;
+  // info_.stream = stream_;
+}
+
+
+template <typename Dtype>
+void TranscriptionLossLayer<Dtype>::Reshape(
+    const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
+
+  LossLayer<Dtype>::Reshape(bottom, top);
+
+  softmax_layer_->Reshape(softmax_bottom_vec_, softmax_top_vec_);
+  softmax_axis_ =
+      bottom[0]->CanonicalAxisIndex(this->layer_param_.softmax_param().axis());
+  outer_num_ = bottom[0]->count(0, softmax_axis_);
+  inner_num_ = bottom[0]->count(softmax_axis_ + 1);
+  CHECK_EQ(outer_num_ * inner_num_, bottom[1]->count())
+      << "Number of labels must match number of predictions; "
+      << "e.g., if softmax axis == 1 and prediction shape is (N, C, H, W), "
+      << "label count (number of labels) must be N*H*W, "
+      << "with integer values in {0, 1, ..., C-1}.";
+  if (top.size() >= 2) {
+    // softmax output
+    top[1]->ReshapeLike(*bottom[0]);
+  }
+
+}
+// template <typename Dtype>
+// void debug_info_fun(const Dtype* prob_data, const Dtype* tmpLabel, const int oriInputLength, const int nFrame, const int nClasses)
+// {
+//   vector<int> tmpResult;
+//   vector<int> oriResult;
+//   for(int tv = 0; tv < oriInputLength; tv++){
+//     int maxClass = 0;
+//     float maxScore = 0;
+//     for(int cv = 0; cv < nClasses; cv++){
+//       if(maxScore < prob_data[tv*nFrame*nClasses+0*nClasses+cv]){
+//         maxClass = cv;
+//         maxScore = prob_data[tv*nFrame*nClasses+0*nClasses+cv];
+//       }        
+//     }
+//     oriResult.push_back(maxClass);
+//     if(tv > 0){
+//       int lastLabel = tmpResult.back();
+//       if(lastLabel != maxClass){
+//         tmpResult.push_back(maxClass);
+//       }          
+//     }else{
+//       tmpResult.push_back(maxClass);
+//     }
+//   }
+
+//   vector<int> theResult;
+//   for(int rv = 0; rv < tmpResult.size(); rv++){
+//     if(tmpResult[rv] != 0){
+//       theResult.push_back(tmpResult[rv]);
+//     }
+//   }
+
+//   std::cout << "pred label: ";
+//   for(int wv = 0; wv < oriResult.size(); wv++){
+//     if(oriResult[wv] == 0){
+//       std::cout << "_ ";
+//     }else{
+//       std::cout << oriResult[wv];
+//     }
+//   }
+//   std::cout << std::endl;
+
+//   std::cout << "pred label: ";
+//   for(int wv = 0; wv < theResult.size(); wv++){
+//       std::cout << theResult[wv] << " ";
+//   }
+//   std::cout << std::endl;
+
+//   std::cout << "true label: ";
+//   for(int tv = 0; tv < oriInputLength; tv++){
+//     std::cout<< tmpLabel[tv*nFrame+0] <<" ";
+//   }
+//   std::cout << std::endl;
+// }
+
+static int theC = 0;
+template <typename Dtype>
+void TranscriptionLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+
+  const int oriInputLength = bottom[0]->shape(0);
+  const int nFrame      = bottom[0]->shape(1);
+  const int nClasses    = bottom[0]->shape(2);
+
+  // The forward pass computes the softmax prob values.
+  softmax_layer_->Forward(softmax_bottom_vec_, softmax_top_vec_);
+  const Dtype* prob_data = prob_.mutable_cpu_data();
+  Dtype* input = input_.mutable_cpu_data();
+  const Dtype* tmpLabel = bottom[1]->cpu_data();//two Dim; sample Index and target sequence element Index
+
+  //debug info_
+  // if(this->layer_param_.loss_param().debug_info() && theC++ % 50 == 0 ){
+  //   // debug_info_fun(prob_data,tmpLabel,oriInputLength,nFrame,nClasses);
+  // }
+  
+  caffe_log(oriInputLength*nFrame*nClasses,prob_data,input);
+
+  const int blankLabel = 0;
+  Dtype* gradDiff = gradInput_.mutable_cpu_data();
+  Dtype losses = 0;
+  vector<Dtype> lossV(nFrame,0);
+
+  // #pragma omp parallel for
+  for (int i = 0; i < nFrame; ++i) {
+      int targetLength = 0;
+      vector<int> targetData_i;
+      while(tmpLabel[targetLength*nFrame+i] != 0) {
+        targetData_i.push_back(tmpLabel[targetLength*nFrame+i]);
+        targetLength++;
+        if(targetLength >= this->layer_param_.loss_param().max_length() )
+          break;             
+      }        
+      
+      const int nSegment = 2 * targetLength + 1;
+      int inputLength = oriInputLength;
+
+      vector<vector<Dtype> > fvars(inputLength,vector<Dtype>(nSegment,LogMath<Dtype>::logZero)); 
+      fvars[0][0] = input[0*nFrame*nClasses+i*nClasses+0];
+      if (nSegment > 1) {
+          fvars[0][1] = input[0*nFrame*nClasses+i*nClasses+targetData_i[0]];
+      }
+
+      for (int t = 1; t < inputLength; ++t) {
+          const Dtype* currLogActs = input+t*nFrame*nClasses+i*nClasses;
+          vector<Dtype> prefFvars = fvars[t-1];
+          int sBegin = std::max(0, nSegment - (2 * inputLength - t));
+          int sEnd = std::min(nSegment, 2 * (t + 1));
+          for (int s = sBegin; s < sEnd; ++s) { // FIXME: < or <= ??
+              Dtype fv;
+              if (s % 2 == 1) { // non-blank
+                  int labelIndex = s/2;
+                  int label = targetData_i[labelIndex];
+                  fv = LogMath<Dtype>::logAdd(prefFvars.at(s), prefFvars.at(s-1));
+                  if (s > 1 && label != targetData_i[labelIndex-1]) {
+                      fv = LogMath<Dtype>::logAdd(fv, prefFvars.at(s-2));
+                  }
+                  fv = LogMath<Dtype>::logMul(fv, currLogActs[label]);
+              } else { // blank
+                  fv = prefFvars.at(s);
+                  if (s > 0) {
+                      fv = LogMath<Dtype>::logAdd(fv, prefFvars.at(s-1));
+                  }
+                  fv = LogMath<Dtype>::logMul(fv, currLogActs[0]); // 0 for blank
+              }
+              fvars[t][s] = fv;
+          }
+      }
+        
+      Dtype logProb = fvars[inputLength-1][nSegment-1];
+      if (nSegment > 1) {
+          logProb = LogMath<Dtype>::logAdd(logProb, fvars[inputLength-1][nSegment-2]);
+      }
+
+      lossV[i] = logProb;
+      losses += (-logProb);
+
+
+          // compute backward variables
+          vector<vector<Dtype> > bvars(inputLength,vector<Dtype>(nSegment,LogMath<Dtype>::logZero));
+          bvars[inputLength-1][nSegment-1] = LogMath<Dtype>::logOne;
+          if (nSegment > 1) {
+              bvars[inputLength-1][nSegment-2] = LogMath<Dtype>::logOne;
+          } 
+          for (int t = inputLength-2; t >= 0; --t) {
+              const Dtype* prevLogActs = input+(t+1)*nFrame*nClasses+i*nClasses;
+              vector<Dtype> prevBvars = bvars[t+1];
+              int sBegin = std::max(0, nSegment - (2 * inputLength - t));
+              int sEnd = std::min(nSegment, 2 * (t + 1));
+              for (int s = sBegin; s < sEnd; ++s) {
+                  Dtype bv;
+                  if (s % 2 == 1) {
+                      const int labelIndex = s/2;
+                      int label = targetData_i[labelIndex];
+                      bv = LogMath<Dtype>::logAdd(
+                          LogMath<Dtype>::logMul(prevBvars[s], prevLogActs[label]),
+                          LogMath<Dtype>::logMul(prevBvars[s+1], prevLogActs[blankLabel]));
+                      if (s < nSegment-2) {
+                          const int prevLabel = targetData_i[labelIndex+1];
+                          if (label != prevLabel) {
+                              bv = LogMath<Dtype>::logAdd(bv,
+                                  LogMath<Dtype>::logMul(prevBvars[s+2], prevLogActs[prevLabel]));
+                          }
+                      }
+                  } else {
+                      int labelIndex = s/2;
+                      int label = targetData_i[labelIndex];
+                      bv = LogMath<Dtype>::logMul(prevBvars[s], prevLogActs[blankLabel]);
+                      if (s < nSegment-1) {
+                          bv = LogMath<Dtype>::logAdd(bv,
+                              LogMath<Dtype>::logMul(prevBvars[s+1], prevLogActs[label]));
+                      }
+                  }
+                  bvars[t][s] = bv;
+              }
+          }
+
+          // compute gradients on inputs
+          for (int t = 0; t < inputLength; ++t) {
+              std::vector<Dtype> logDeDy(nClasses, LogMath<Dtype>::logZero);
+              for (int s = 0; s < nSegment; ++s) {
+                  int k = (s%2==1) ? targetData_i[s/2] : blankLabel;
+                  logDeDy[k] = LogMath<Dtype>::logAdd(logDeDy[k],
+                      LogMath<Dtype>::logMul(fvars[t][s], bvars[t][s]));
+              }
+              for (int k = 0; k < nClasses; ++k) {
+
+                gradDiff[t*nFrame*nClasses+i*nClasses+k] = prob_data[t*nFrame*nClasses+i*nClasses+k]-LogMath<Dtype>::safeExp(
+                      LogMath<Dtype>::logDiv(logDeDy[k], lossV[i]));
+
+                if(this->layer_param_.loss_param().debug_info()){
+                  bool showUp = false;
+                  if(theC % 100 == 0 && i == 0){
+                    for(int ttt = 0; ttt < targetData_i.size(); ttt++){
+                      if(targetData_i[ttt] == k){
+                        showUp = true;
+                      }
+                    }
+                    if(showUp || k == 0){
+                      std::cout  << "k :" << k 
+                        << " gradDiff :" << gradDiff[t*nFrame*nClasses+i*nClasses+k] 
+                        << " predit :" << prob_data[t*nFrame*nClasses+i*nClasses+k]
+                        << " a*b :" << LogMath<Dtype>::safeExp(LogMath<Dtype>::logDiv(logDeDy[k], lossV[i]))<<std::endl;                       
+                    }               
+                  }
+                }
+              }
+          } 
+
+      
+  }
+
+
+  // theC++;
+  if (normalize_) {
+    top[0]->mutable_cpu_data()[0] = losses/nFrame ;
+  } else {
+    top[0]->mutable_cpu_data()[0] = losses/nFrame;
+  }
+
+}
+
+
+
+template <typename Dtype>
+void TranscriptionLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
+    const vector<bool>& propagate_down,
+    const vector<Blob<Dtype>*>& bottom) {
+  
+  const Dtype* gradDiff = gradInput_.cpu_data();
+
+
+  const int inputLength = bottom[0]->shape(0);//input sequence length
+  const int nFrame      = bottom[0]->shape(1);
+  const int nClasses    = bottom[0]->shape(2);
+  // const Dtype* label = bottom[1]->cpu_data();
+
+  if (propagate_down[1]) {
+    LOG(FATAL) << this->type()
+               << " Layer cannot backpropagate to label inputs.";
+  }
+  if (propagate_down[0]) {
+    Dtype* bottom_diff = bottom[0]->mutable_cpu_diff();
+    for (int tv = 0; tv < inputLength; ++tv){    
+      for (int sv = 0; sv < nFrame; ++sv){
+          for (int cv = 0; cv < nClasses; ++cv){
+              bottom_diff[tv*nFrame*nClasses+sv*nClasses+cv] = gradDiff[tv*nFrame*nClasses+sv*nClasses+cv];
+              // std::cout << bottom_diff[tv*nFrame*nClasses+sv*nClasses+cv] << " ";
+          }
+      }
+    }
+
+    // Scale gradient
+    const Dtype loss_weight = top[0]->cpu_diff()[0];
+
+    if (normalize_) {
+      caffe_scal(nFrame*inputLength*nClasses, loss_weight / (nFrame*inputLength), bottom_diff);
+    } else {
+      caffe_scal(nFrame*inputLength*nClasses, loss_weight / (nFrame*inputLength), bottom_diff);
+    }
+  }
+
+
+
+}
+
+#ifdef CPU_ONLY
+STUB_GPU(TranscriptionLossLayer);
+#endif
+
+INSTANTIATE_CLASS(TranscriptionLossLayer);
+REGISTER_LAYER_CLASS(TranscriptionLoss);
+
+} 
+
+
+
+
+  // const Dtype* top_label = bottom[1]->cpu_data();
+  
+  // char theChar[3] = {};
+  // for(int item_id = 0; item_id < bottom[0]->shape(1); item_id++){
+  //   // for(int lv = 0; lv < bottom[0]->shape(0); lv++){
+  //   //   int labelIndex =top_label[lv*bottom[0]->shape(1)+item_id];
+  //   //   std::cout << labelIndex << " ";
+  //   // }
+  //   // std::cout << std::endl;
+
+  //   for(int lv = 0; lv < bottom[0]->shape(0); lv++){
+  //     int labelIndex =top_label[lv*bottom[0]->shape(1)+item_id];  
+  //     std::cout << std::hex << gbcodes_text_char[labelIndex-1] << " ";
+  //   } 
+  //   std::cout << std::endl;
+
+  //   // for(int lv = 0; lv < bottom[0]->shape(0); lv++){
+  //   //   int labelIndex =top_label[lv*bottom[0]->shape(1)+item_id];  
+  //   //   theChar[0] = gbcodes_text_char[labelIndex-1]&0xff;
+  //   //   theChar[1] = (gbcodes_text_char[labelIndex-1]>>8)&0xff;
+  //   //   std::cout << theChar  << " ";
+  //   //   theChar[1] = gbcodes_text_char[labelIndex-1]&0xff;
+  //   //   theChar[0] = (gbcodes_text_char[labelIndex-1]>>8)&0xff;
+  //   //   std::cout << theChar  << " ";
+
+  //   // } 
+  //   std::cout << "tmp confirm" << std::endl;
+  //   getchar();
+  // }
+
+  // std::cout << "end" <<std::endl;

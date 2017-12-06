@@ -1,0 +1,288 @@
+#include <algorithm>
+#include <functional>
+#include <utility>
+#include <vector>
+#include <string>
+#include <cmath>
+#include <limits>
+#include <numeric>
+
+#include "caffe/layer.hpp"
+#include "caffe/util/io.hpp"
+#include "caffe/util/math_functions.hpp"
+#include "caffe/layers/loss_layer.hpp"
+#include "caffe/util/LogMath.hpp"
+#include "caffe/util/ctc.h"
+
+namespace caffe {
+
+
+
+static int theC = 0;
+
+template <typename Dtype>
+void debug_info_fun_gpu(const Dtype* prob_data, const Dtype* tmpLabel, const int oriInputLength, 
+                    const int nFrame, const int nClasses)
+{ char label_index_list_ori_set[] = {'_','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t',
+            'u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
+            'U','V','W','X','Y','Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ',
+            '"', '\'', '!', '.', '(', ')', '-', ':', '&', ';', '?', '/', '>', ',', '|', '@', '[', ']', '%', '~', '$'};
+  vector<int> tmpResult;
+  vector<int> oriResult;
+  for(int tv = 0; tv < oriInputLength; tv++){
+    int maxClass = 0;
+    float maxScore = 0;
+    for(int cv = 0; cv < nClasses; cv++){
+      if(maxScore < prob_data[tv*nFrame*nClasses+0*nClasses+cv]){
+        maxClass = cv;
+        maxScore = prob_data[tv*nFrame*nClasses+0*nClasses+cv];
+      }        
+    }
+    oriResult.push_back(maxClass);
+    if(tv > 0){
+      int lastLabel = tmpResult.back();
+      if(lastLabel != maxClass){
+        tmpResult.push_back(maxClass);
+      }          
+    }else{
+      tmpResult.push_back(maxClass);
+    }
+  }
+
+  vector<int> theResult;
+  for(int rv = 0; rv < tmpResult.size(); rv++){
+    if(tmpResult[rv] != 0){
+      theResult.push_back(tmpResult[rv]);
+    }
+  }
+
+  std::cout << "pred label: ";
+  for(int wv = 0; wv < oriResult.size(); wv++){
+    if(oriResult[wv] == 0){
+      std::cout << "_ ";
+    }else{
+      std::cout << oriResult[wv];
+    }
+  }
+  std::cout << std::endl;
+
+  std::cout << "pred label: ";
+  for(int wv = 0; wv < theResult.size(); wv++){
+    std::cout << label_index_list_ori_set[int(theResult[wv])] << " ";
+  }
+  std::cout << std::endl;
+
+  std::cout << "true label: ";
+  for(int tv = 0; tv < oriInputLength + 0; tv++){
+    std::cout<< label_index_list_ori_set[int(tmpLabel[tv*nFrame+0])] <<" ";
+  }
+  std::cout << std::endl;
+
+  std::cout << "test label: ";
+  for(int tv = 0; tv < oriInputLength; tv++){
+    std::cout<< label_index_list_ori_set[int(tmpLabel[tv*nFrame+nFrame-1])] <<" ";
+  }
+  std::cout << std::endl;
+  std::cout << "Total nFrame: " << nFrame << std::endl;
+  int front_ground = 0;
+  for(; front_ground < nFrame; front_ground++){
+    if(tmpLabel[front_ground] == 63){
+      break;
+    }
+  }
+  std::cout << "BackGround_num: " << nFrame - front_ground << std::endl;
+  // for(int ttt = 0; ttt < nFrame; ttt++){
+  //   // int index_out = 0;
+  //   std::cout << "index_out: " << ttt << "----";
+  //   for(int tv = 0; tv < oriInputLength + 0; tv++){
+  //     std::cout<< label_index_list_ori_set[int(tmpLabel[tv*nFrame+ttt])] <<" ";
+  //   }
+  //   std::cout << std::endl;
+  // }
+  
+}
+
+template <typename Dtype>
+void TranscriptionLossLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+
+  const int oriInputLength = bottom[0]->shape(0);
+  const int nFrame      = bottom[0]->shape(1);
+  const int nClasses    = bottom[0]->shape(2);
+  const Dtype* ori_label = bottom[1]->cpu_data();
+  std::vector<int> true_label;
+
+  const Dtype* input = bottom[0]->cpu_data();
+  // const int blankLabel = 0;
+                 
+  Dtype* gradDiff = gradInput_.mutable_cpu_data();
+  vector<float> losses(nFrame);
+
+
+  // calc label length for each sample in this mini-batch
+  std::vector<int> label_lengths, lengths;
+  // #pragma omp parallel for
+  // @Helios: parallel for different sample in mini-batch.
+  for (int i = 0; i < nFrame; ++i) {
+    // compute target(label) length for this sample.
+    // @Helios: "ori_label" variable has the length the same as bottom[0], 
+    //    but we only need the actual length(which is not "0").
+    int targetLength = 0;
+    while (ori_label[targetLength*nFrame + i] != Dtype(0)) {
+      true_label.push_back(ori_label[targetLength*nFrame+i]);
+      // std::cout << ori_label[targetLength*nFrame+i] << " ";
+      targetLength++;
+      if(targetLength >= this->layer_param_.loss_param().max_length() )
+        break;
+    }
+    // std::cout << std::endl;
+    label_lengths.push_back(targetLength);
+    lengths.push_back(oriInputLength);
+  }   
+
+  size_t cpu_alloc_bytes;
+  get_workspace_size(label_lengths.data(), lengths.data(),
+                     nClasses, nFrame, info_,
+                     &cpu_alloc_bytes);
+
+  // char *ctc_gpu_workspace;
+  // cudaMalloc(&ctc_gpu_workspace, gpu_alloc_bytes);
+  void* ctc_cpu_workspace = malloc(cpu_alloc_bytes);
+
+  //@Helios: zeroed grad..
+  // caffe_gpu_set(gradInput_.count(), (Dtype)0., gradDiff);
+
+  compute_ctc_loss((const float*)(input), (float*)gradDiff,
+                  true_label.data(), label_lengths.data(),
+                  lengths.data(),
+                  nClasses,
+                  lengths.size(),
+                  losses.data(),
+                  ctc_cpu_workspace,
+                  info_);
+
+  free(ctc_cpu_workspace);
+  if (this->layer_param_.loss_param().debug_info()) {
+    theC++;
+    if(theC % 50 == 0){
+      softmax_layer_->Forward(softmax_bottom_vec_, softmax_top_vec_);
+      const Dtype* prob_data = prob_.mutable_cpu_data();
+      debug_info_fun_gpu(prob_data,ori_label,oriInputLength,nFrame,nClasses);
+    }
+  }
+  // cudaStreamSynchronize(stream_);
+
+  // softmax_layer_->Forward(softmax_bottom_vec_, softmax_top_vec_);
+  // const Dtype* prob_data = prob_.mutable_cpu_data();
+  // gradDiff = gradInput_.mutable_cpu_data();
+  // for (int i = 0; i < gradInput_.count(); ++i) {
+  //   if (std::isnan(gradDiff[i]) ) {
+  //     int T_nan = std::floor(i / (nFrame * nClasses) );
+  //     int batch_nan = std::floor((i - T_nan*nFrame*nClasses) / nClasses);
+  //     int class_nan = (i - T_nan*nFrame*nClasses - batch_nan* nClasses);
+  //     LOG(INFO) << "theC: " << theC;
+  //     LOG(INFO) << "T: " << T_nan;
+  //     LOG(INFO) << "nFrame: " << batch_nan;
+  //     LOG(INFO) << "nClasses: " << class_nan;      
+  //     LOG(INFO) << "prob: " << prob_data[i];
+  //     // LOG(INFO) << "label: ";
+  //     // LOG(INFO) << "label_lengths.size(): " << label_lengths.size();
+  //     // LOG(INFO) << "label_lengths[batch_nan]: " << label_lengths[batch_nan];
+  //     // LOG(INFO) << "true_label.size(): " << true_label.size();
+  //     for(int tv = 0; tv < label_lengths[batch_nan]; tv++){
+  //       LOG(INFO) << true_label[batch_nan + tv];
+  //     }      
+  //   } 
+  // }
+
+
+  // The forward pass computes the softmax prob values.
+  // softmax_layer_->Forward(softmax_bottom_vec_, softmax_top_vec_);
+  // const Dtype* prob_data = prob_.mutable_cpu_data();
+  // gradDiff = gradInput_.mutable_cpu_data();
+  // if (theC++ % 100 == 0) {
+  //  // compute gradients on inputs
+  //   bool showUp = false;
+  //   for (int t = 0; t < oriInputLength; ++t) {
+  //     for (int k = 0; k < nClasses; ++k) {
+  //       for(int ttt = 0; ttt < label_lengths[0]; ttt++){
+  //         if(true_label[ttt] == k){
+  //           showUp = true;
+  //         }
+  //       }    
+  //       if (showUp || k == 0) {
+  //         std::cout  << "k :" << k 
+  //           << " gradDiff :" << gradDiff[t*nFrame*nClasses +  k] 
+  //           << " predit :" << prob_data[t*nFrame*nClasses + k]
+  //           <<std::endl;          
+  //         showUp = false;                               
+  //       }      
+  //     }
+  //   }
+  //   getchar();
+  // }
+
+  if (normalize_) {
+    top[0]->mutable_cpu_data()[0] = 
+      std::accumulate(losses.begin(), losses.end(), 0.) / nFrame;
+    // LOG(INFO) << "top[0]->mutable_cpu_data()[0]: " << top[0]->mutable_cpu_data()[0];
+  } else {
+    top[0]->mutable_cpu_data()[0] = 
+      std::accumulate(losses.begin(), losses.end(), 0.) / nFrame;
+  }
+
+  // cudaFree(ctc_gpu_workspace);
+  
+//   Forward_cpu(bottom, top);
+}
+
+template <typename Dtype>
+__global__ void Data_copy(const int nthreads, const Dtype* in_data,
+                          Dtype* out_data) {
+  CUDA_KERNEL_LOOP(index, nthreads) {
+      out_data[index] = in_data[index];
+  }
+}
+
+template <typename Dtype>
+void TranscriptionLossLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
+    const vector<bool>& propagate_down,
+    const vector<Blob<Dtype>*>& bottom) {
+  
+  // const Dtype* gradDiff = gradInput_.cpu_data();
+  // const int inputLength = bottom[0]->shape(0);//input sequence length
+  // const int nFrame      = bottom[0]->shape(1);
+  // const int nClasses    = bottom[0]->shape(2);
+  // const Dtype* label = bottom[1]->cpu_data();
+
+  // if (propagate_down[1]) {
+  //   LOG(FATAL) << this->type()
+  //              << " Layer cannot backpropagate to label inputs.";
+  // }
+
+  // if (propagate_down[0]) {
+  //   Dtype* bottom_diff = bottom[0]->mutable_cpu_diff();
+  //   // caffe_gpu_memcpy(bottom[0]->count(), gradDiff, bottom_diff);
+  //   int nthreads = nFrame*inputLength*nClasses;
+  //   Data_copy<Dtype>
+  //   <<<CAFFE_GET_BLOCKS(nthreads), CAFFE_CUDA_NUM_THREADS>>>(
+  //   nthreads, gradDiff, bottom_diff);    
+
+  //   // Scale gradient
+  //   const Dtype loss_weight = top[0]->cpu_diff()[0];
+
+  //   if (normalize_) {
+  //     caffe_gpu_scal(nFrame*inputLength*nClasses, loss_weight / (nFrame*inputLength), bottom_diff);
+  //   } else {
+  //     caffe_gpu_scal(nFrame*inputLength*nClasses, loss_weight / (nFrame*inputLength), bottom_diff);
+  //   }
+  // }
+
+  Backward_cpu(top, propagate_down, bottom);
+
+}
+
+INSTANTIATE_LAYER_GPU_FORWARD(TranscriptionLossLayer);
+INSTANTIATE_LAYER_GPU_BACKWARD(TranscriptionLossLayer);
+
+} 

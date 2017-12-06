@@ -1,0 +1,50 @@
+rec:0.651 prec:0.753 F-measure:0.698 
+
+rec:0.639 prec:0.799 F-measure:0.710 
+
+rec:0.654 prec:0.758 F-measure:0.702 
+
+rec:0.662 prec:0.772 F-measure:0.713 
+
+rec:0.648 prec:0.768 F-measure:0.703 
+
+rec:0.656 prec:0.736 F-measure:0.694 
+
+rec:0.645 prec:0.733 F-measure:0.686 
+
+rec:0.655 prec:0.687 F-measure:0.671 
+
+rec:0.663 prec:0.717 F-measure:0.689 
+
+rec:0.660 prec:0.766 F-measure:0.709 
+
+rec:0.643 prec:0.749 F-measure:0.692 
+
+rec:0.648 prec:0.753 F-measure:0.696 
+
+rec:0.651 prec:0.760 F-measure:0.701 
+
+rec:0.672 prec:0.783 F-measure:0.723 
+
+rec:0.677 prec:0.766 F-measure:0.719 
+
+rec:0.686 prec:0.775 F-measure:0.728 
+
+rec:0.693 prec:0.769 F-measure:0.729 
+
+rec:0.653 prec:0.747 F-measure:0.697 
+
+rec:0.654 prec:0.730 F-measure:0.690 
+
+rec:0.632 prec:0.740 F-measure:0.682 
+
+rec:0.636 prec:0.752 F-measure:0.689 
+
+rec:0.656 prec:0.727 F-measure:0.690 
+
+rec:0.653 prec:0.750 F-measure:0.698 
+
+rec:0.653 prec:0.747 F-measure:0.697 
+
+rec:0.697 prec:0.771 F-measure:0.732 
+

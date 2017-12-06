@@ -1,0 +1,733 @@
+#include <algorithm>
+#include <functional>
+#include <utility>
+#include <vector>
+
+#include "caffe/layer.hpp"
+#include "caffe/util/io.hpp"
+#include "caffe/util/math_functions.hpp"
+#include "caffe/layers/accuracy_layer.hpp"
+
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+
+namespace caffe {
+
+
+template <typename Dtype>
+void SequenceAccuracyTranscriptionLayer<Dtype>::LayerSetUp(
+  const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
+
+  this->top_k_ = this->layer_param_.accuracy_param().top_k();
+
+  this->has_ignore_label_ =
+    this->layer_param_.accuracy_param().has_ignore_label();
+  if (this->has_ignore_label_) {
+    this->ignore_label_ = this->layer_param_.accuracy_param().ignore_label();
+  }
+
+  iter_count_ = count_ = accuracy_ = 0;
+  insertErrorCount_ = deleteErrorCount_ = substituteErrorCount_ = 0;
+  // @Helios: resize the stream container.
+  for (int i = 0; i < bottom[0]->count(1); ++i) {
+    true_label_count_.push_back(vector<int>() );
+  }
+  for (int i = 0; i < true_label_count_.size(); ++i) {
+    true_label_count_[i].resize(bottom[0]->count(2), 0);
+  }
+  true_label_.resize(bottom[0]->count(1), -1); 
+
+  LayerParameter softmax_param(this->layer_param_);
+  softmax_param.set_type("Softmax");
+  softmax_layer_ = LayerRegistry<Dtype>::CreateLayer(softmax_param);
+  softmax_bottom_vec_.clear();
+  softmax_bottom_vec_.push_back(bottom[0]);
+  softmax_top_vec_.clear();
+  softmax_top_vec_.push_back(&prob_);
+  softmax_layer_->SetUp(softmax_bottom_vec_, softmax_top_vec_);
+
+
+  if (has_ignore_label_) {
+    ignore_label_ = this->layer_param_.loss_param().ignore_label();
+    ignore_label_num_ = 0;
+  }
+  normalize_ = this->layer_param_.loss_param().normalize();
+
+
+}
+
+template <typename Dtype>
+void SequenceAccuracyTranscriptionLayer<Dtype>::Reshape(
+  const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
+  CHECK_LE(this->top_k_, bottom[0]->count() / bottom[1]->count())
+      << "top_k must be less than or equal to the number of classes.";
+  this->label_axis_ =
+      bottom[0]->CanonicalAxisIndex(this->layer_param_.accuracy_param().axis());
+  this->outer_num_ = bottom[0]->count(0, this->label_axis_);
+  this->inner_num_ = bottom[0]->count(this->label_axis_ + 1);
+  CHECK_EQ(this->outer_num_ * this->inner_num_, bottom[1]->count())
+      << "Number of labels must match number of predictions; "
+      << "e.g., if label axis == 1 and prediction shape is (N, C, H, W), "
+      << "label count (number of labels) must be N*H*W, "
+      << "with integer values in {0, 1, ..., C-1}.";
+  vector<int> top_shape(0);  // Accuracy is a scalar; 0 axes.
+  top[0]->Reshape(top_shape);
+  if (top.size() > 1) {
+    // Per-class accuracy is a vector; 1 axes.
+    vector<int> top_shape_per_class(1);
+    top_shape_per_class[0] = bottom[0]->shape(this->label_axis_);
+    top[1]->Reshape(top_shape_per_class);
+    this->nums_buffer_.Reshape(top_shape_per_class);
+  }
+
+
+  softmax_layer_->Reshape(softmax_bottom_vec_, softmax_top_vec_);
+  softmax_axis_ =
+      bottom[0]->CanonicalAxisIndex(this->layer_param_.softmax_param().axis());
+  outer_num_ = bottom[0]->count(0, softmax_axis_);
+  inner_num_ = bottom[0]->count(softmax_axis_ + 1);
+  CHECK_EQ(outer_num_ * inner_num_, bottom[1]->count())
+      << "Number of labels must match number of predictions; "
+      << "e.g., if softmax axis == 1 and prediction shape is (N, C, H, W), "
+      << "label count (number of labels) must be N*H*W, "
+      << "with integer values in {0, 1, ..., C-1}.";
+  if (top.size() >= 2) {
+    // softmax output
+    top[1]->ReshapeLike(*bottom[0]);
+  }
+
+}
+
+// char label_index_list[] = {'_', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
+//         'U','V','W','X','Y','Z', ',', '\'', ' ', '.', '/','-','&' };
+template <typename Dtype>
+int english_word_fun(vector<vector<int> >& tmpResult, const Dtype* labelSeq, int &tmpCount,
+ const int oriInputLength,const int nFrame, const int nClasses)
+{
+  //_a_b_ -> ab
+  vector<vector<int> > theResult(nFrame);
+  for(int iv = 0; iv < nFrame; iv++){
+    for(int rv = 0; rv < tmpResult[iv].size(); rv++){
+      if(tmpResult[iv][rv] != 0){
+        theResult[iv].push_back(tmpResult[iv][rv]);
+      }
+    }
+  }
+  int tmpAccuracy = 0;
+  FILE *fptr;
+  const char*  outFileName = "pre_labels.log";
+  for(int iv = 0; iv < nFrame; iv++){
+    for(int rv = 0; rv < theResult[iv].size(); rv++) {
+      int trueLabel = static_cast<int>(labelSeq[rv*nFrame+iv]);
+      if(theResult[iv][rv] != trueLabel 
+         // &&((trueLabel <= 10 && theResult[iv][rv] != trueLabel && theResult[iv][rv] != trueLabel+10 && theResult[iv][rv] != trueLabel+9) || 
+         // (trueLabel > 10 && theResult[iv][rv] != trueLabel-10 && theResult[iv][rv] != trueLabel-9 && theResult[iv][rv] != trueLabel) ) 
+        ) {
+        std::cout << "label: " << std::endl;          
+        for(int tv = 0; tv < theResult[iv].size(); tv++){
+          std::cout<< labelSeq[tv*nFrame+iv] <<" ";
+        }
+        std::cout << std::endl;  
+        std::cout << "pred: " << std::endl;          
+        for(int tv = 0; tv < theResult[iv].size(); tv++){
+          std::cout<< theResult[iv][tv] <<" ";
+        }
+        std::cout << std::endl;
+
+        // std::cout << std::endl;
+        break;
+        // continue;
+      }
+      int trueLabel2 = static_cast<int>(labelSeq[(rv+1)*nFrame+iv]);
+      if((rv == theResult[iv].size()-1)  
+        && (trueLabel2 == 0)
+        ){
+        tmpAccuracy++;
+      }
+    }
+    // log out the predictions and labels.
+    // fptr = fopen(outFileName, "a+");
+    // // fprintf(fptr, "%s\n", "label:");
+    // int tv = 0;
+    // while(static_cast<int>(labelSeq[tv*nFrame+iv]) != 0) {
+    //   fprintf(fptr, "%c", label_index_list[static_cast<int>(labelSeq[tv*nFrame+iv])]);
+    //   tv++;
+    // }
+    // fprintf(fptr, "\n");
+    // fprintf(fptr, "%s\n", "pred:");
+    // for(int tv = 0; tv < theResult[iv].size(); tv++){
+    //   fprintf(fptr, "%c", label_index_list[theResult[iv][tv]]);
+    // }    
+    // fprintf(fptr, "\n");
+    // fclose(fptr);      
+  }
+  tmpCount+= nFrame;
+
+  return tmpAccuracy;
+    
+}
+
+
+
+char label_index_list[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t',
+        'u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
+        'U','V','W','X','Y','Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+template <typename Dtype>
+int english_word_fun(vector<vector<int> >& tmpResult, const Dtype* labelSeq, int &tmpCount,
+ const int oriInputLength,const int nFrame, const int nClasses, 
+ Blob<Dtype>* images)
+{
+  //_a_b_ -> ab
+  vector<vector<int> > theResult(nFrame);
+  for(int iv = 0; iv < nFrame; iv++){
+    for(int rv = 0; rv < tmpResult[iv].size(); rv++){
+      if(tmpResult[iv][rv] != 0){
+        theResult[iv].push_back(tmpResult[iv][rv]);
+      }
+    }
+  }
+  int tmpAccuracy = 0;
+  FILE *fptr;
+  const char*  outFileName = "pre_labels.log";
+  for(int iv = 0; iv < nFrame; iv++){
+    // print out the label & prediction information.
+    // as well as the predicted image.    
+    std::cout << "label: " << std::endl;          
+    int tv = 0;
+    while(static_cast<int>(labelSeq[tv*nFrame+iv]) != 0) {
+      std::cout<< label_index_list[static_cast<int>(labelSeq[tv*nFrame+iv]-1 )] ;
+      tv++;
+    }
+    std::cout << std::endl; 
+    for(int i = 0; i < 3; i++){
+      std::cout << labelSeq[i*nFrame+iv] << ", ";
+    }
+    std::cout << std::endl;  
+    std::cout << "pred: " << std::endl;          
+    for(int tv = 0; tv < theResult[iv].size(); tv++){
+      std::cout<< label_index_list[theResult[iv][tv]-1 ];
+    }
+    std::cout << std::endl;
+
+    if(images->channels() == 3){
+      Dtype* data = images->mutable_cpu_data() + images->offset(iv); 
+      cv::Mat img = cv::Mat::zeros(images->height(), images->width(), CV_8UC3);
+      for (int h = 0; h < images->height(); ++h) {
+        uchar* ptr = img.ptr<uchar>(h);
+        int img_index = 0;    
+        for (int w = 0; w < images->width(); ++w) {
+          for (int c = 0; c < images->channels(); ++c) {
+            int images_index = (c * images->height() + h) * images->width() + w;
+            ptr[img_index++] = static_cast<uchar>(data[images_index]+128);
+            // std::cout << data[images_index] << " ";
+          }
+        }
+      }  
+      cv::imshow("fun",img);
+      cv::waitKey(0);     
+    }
+    else{
+      Dtype* data = images->mutable_cpu_data() + images->offset(iv); 
+      cv::Mat img = cv::Mat::zeros(images->height(), images->width(), CV_8UC1);
+      
+      for (int h = 0; h < images->height(); ++h) {
+        uchar* ptr = img.ptr<uchar>(h);
+        int img_index = 0;
+        float pixel_value = 0; 
+        for (int w = 0; w < images->width(); ++w) {
+          for (int c = 0; c < images->channels(); ++c) {
+            int images_index = (c * images->height() + h) * images->width() + w;
+            pixel_value += (data[images_index]+128)/images->channels();
+          }
+          ptr[img_index++] = static_cast<uchar>(pixel_value);
+        }
+        // cv::imshow("fun",img);
+        // if(cv::waitKey(0) == 27)break; 
+      }
+      // cv::resize(img, img, cv::Size(50, 30));
+      // cv::GaussianBlur(img, img, cv::Size(3, 3), 0, 0);
+      cv::imshow("fun",img);
+      cv::waitKey(0); 
+    }
+    for(int rv = 0; rv < theResult[iv].size(); rv++) {   
+      int trueLabel = static_cast<int>(labelSeq[rv*nFrame+iv]);    
+      if(theResult[iv][rv] != trueLabel 
+         // &&((trueLabel <= 10 && theResult[iv][rv] != trueLabel && theResult[iv][rv] != trueLabel+10 && theResult[iv][rv] != trueLabel+9) || 
+         // (trueLabel > 10 && theResult[iv][rv] != trueLabel-10 && theResult[iv][rv] != trueLabel-9 && theResult[iv][rv] != trueLabel) ) 
+        ) {
+        // std::cout << "label: " << std::endl;          
+        // for(int tv = 0; tv < theResult[iv].size(); tv++){
+        //   std::cout<< labelSeq[tv*nFrame+iv] <<" ";
+        // }
+        // std::cout << std::endl;  
+        // std::cout << "pred: " << std::endl;          
+        // for(int tv = 0; tv < theResult[iv].size(); tv++){
+        //   std::cout<< theResult[iv][tv] <<" ";
+        // }
+        // std::cout << std::endl;
+
+
+        // Dtype* data = images->mutable_cpu_data() + images->offset(iv); 
+        // cv::Mat img = cv::Mat::zeros(images->height(), images->width(), CV_8UC3);
+        // for (int h = 0; h < images->height(); ++h) {
+        //   uchar* ptr = img.ptr<uchar>(h);
+        //   int img_index = 0;    
+        //   for (int w = 0; w < images->width(); ++w) {
+        //     for (int c = 0; c < images->channels(); ++c) {
+        //       int images_index = (c * images->height() + h) * images->width() + w;
+        //       ptr[img_index++] = static_cast<uchar>(data[images_index] + 128);
+        //     }
+        //   }
+        // }  
+        // cv::imshow("fun",img);
+        // cv::waitKey(0);     
+        // std::cout << std::endl;
+        break;
+      }     
+      int trueLabel2 = static_cast<int>(labelSeq[(rv+1)*nFrame+iv]);
+      if((rv == theResult[iv].size()-1)  
+        && (trueLabel2 == 0)
+        ){
+        tmpAccuracy++;
+      }
+    }
+    // log out the predictions and labels.
+  //   fptr = fopen(outFileName, "a+");
+  //   // fprintf(fptr, "%s\n", "label:");
+  //   int tv = 0;
+  //   while(static_cast<int>(labelSeq[tv*nFrame+iv]) != 0) {
+  //     fprintf(fptr, "%d ", static_cast<int>(labelSeq[tv*nFrame+iv]));
+  //     tv++;
+  //   }
+  //   fprintf(fptr, "\n");
+  //   // fprintf(fptr, "%s\n", "pred:");
+  //   for(int tv = 0; tv < theResult[iv].size(); tv++){
+  //     fprintf(fptr, "%d ", theResult[iv][tv]);      
+  //   }    
+  //   fprintf(fptr, "\n");
+  //   fclose(fptr);      
+  }
+  tmpCount+= nFrame;
+
+  return tmpAccuracy;
+    
+}
+
+template <typename Dtype>
+int english_line_fun(vector<vector<int> >& tmpResult, const Dtype* labelSeq, int &tmpCount,
+ const int oriInputLength,const int nFrame, const int nClasses)
+{
+  std::string ary = "0123456789abcdefghijklmnopqrstuvwxyz";
+
+  //_i_t_|_i_s_|_a_p_p_l_e_ -> it is apple
+  vector<vector<vector<int> > > theResult;
+  for(int iv = 0; iv < nFrame; iv++){
+    vector<vector<int> > words;
+    vector<int> word;
+    for(int rv = 0; rv < tmpResult[iv].size(); rv++){        
+      if(tmpResult[iv][rv] != 0){
+        if(tmpResult[iv][rv] == nClasses-1){
+          if(word.size() > 0){
+            words.push_back(word);
+            word.clear();
+          }
+        }else{
+          word.push_back(tmpResult[iv][rv]);
+        }
+      }      
+    }
+    words.push_back(word);
+    theResult.push_back(words);
+  }
+
+  //it|is|apple -> it is apple
+  vector<vector<vector<int> > > trueLabelSeq;
+  for(int iv = 0; iv < nFrame; iv++){
+    vector<vector<int> > words;
+    vector<int> word;
+    for(int rv = 0; rv < oriInputLength; rv++){
+      int tmpLabel = static_cast<int>(labelSeq[rv*nFrame+iv]);
+      if(tmpLabel != 0){
+        if(tmpLabel == nClasses-1){
+          if(word.size() > 0){
+            words.push_back(word);
+            word.clear();
+          }
+        }else{
+          word.push_back(tmpLabel);
+        }
+      }
+    }
+    words.push_back(word);
+    trueLabelSeq.push_back(words);
+  }
+
+
+  // for(int iv = 0; iv < nFrame; iv++ ){
+  //   //std::cout << "true label   :" << std::endl;
+  //   for(int wn = 0; wn < trueLabelSeq[iv].size(); wn++){
+  //     for(int wl = 0; wl < trueLabelSeq[iv][wn].size(); wl++){
+  //       int index =trueLabelSeq[iv][wn][wl];
+  //       std::cout << ary[index-1];
+  //     }
+  //     std::cout << " ";
+  //   }
+  //   std::cout << std::endl;
+  // }
+
+  int tmpAccuracy = 0;
+  for(int iv = 0; iv < nFrame; iv++){
+
+    int wordNum = theResult[iv].size() < trueLabelSeq[iv].size() ? theResult[iv].size() : trueLabelSeq[iv].size();
+    tmpCount += trueLabelSeq[iv].size();
+    for(int wn = 0; wn < wordNum; wn++){
+      if(theResult[iv][wn].size() != trueLabelSeq[iv][wn].size())
+        continue;
+      int wordLen = theResult[iv][wn].size();
+      for(int wl = 0; wl < wordLen; wl++){
+        if(theResult[iv][wn][wl] != trueLabelSeq[iv][wn][wl]){
+          break;
+        }
+        if(wl == wordLen -1 )
+        {
+          tmpAccuracy++;
+        }
+      }
+    }
+  }
+
+  return tmpAccuracy;
+    
+}
+
+
+
+template <typename Dtype>
+int chinese_line_fun(vector<vector<int> >& tmpResult, const Dtype* labelSeq, int &tmpCount,
+ const int oriInputLength,const int nFrame, const int nClasses)
+{
+  //_a_b_ -> ab
+  vector<vector<int> > theResult(nFrame);
+  for(int iv = 0; iv < nFrame; iv++){
+    for(int rv = 0; rv < tmpResult[iv].size(); rv++){
+      if(tmpResult[iv][rv] != 0){
+        theResult[iv].push_back(tmpResult[iv][rv]);
+      }
+    }
+  }
+
+  int tmpAccuracy = 0;
+  for(int iv = 0; iv < nFrame; iv++){
+    int tmp_wn;
+    for(tmp_wn = 0; tmp_wn < oriInputLength; tmp_wn++){
+      int tmpLabel = static_cast<int>(labelSeq[tmp_wn*nFrame+iv]);
+      if(tmpLabel == 0){
+        break;
+      }
+    }
+    tmpCount += tmp_wn;
+    for(int rv = 0; rv < theResult[iv].size(); rv++){
+      int trueLabel = static_cast<int>(labelSeq[rv*nFrame+iv]);
+      if(theResult[iv][rv] == trueLabel){
+        tmpAccuracy++;
+      }
+    }
+  }
+  return tmpAccuracy;    
+}
+
+//Edit distance
+void edit_distance_fun(vector<int> &predLabel, vector<int> &trueLabel,
+  int &insertErrorCount, int &deleteErrorCount, int &substituteErrorCount){
+  int regLength = predLabel.size();
+  int realLength = trueLabel.size();
+  vector<vector<int> > pScore(predLabel.size()+1,vector<int>(trueLabel.size()+1,0));
+  // 初始化第一列
+  for (int i = 0; i <= realLength; ++i) {
+      pScore[0][i] = -i;
+  }
+  // 初始化第一行
+  for (int j = 0; j <= regLength; ++j) {
+      pScore[j][0] = -j;
+  }
+  int tmpTest;
+  for (int i = 1; i <= realLength; ++i) {
+    for (int j = 1; j <= regLength; ++j ) {
+
+      // 判断是否符合，符合则加2分，否则从3个方向减1分
+      int value = -1;
+      if (predLabel[j-1] == trueLabel[i-1])
+      {
+        value = 2;
+      }
+      pScore[j][i] = std::max(std::max(pScore[j-1][i-1]+value, pScore[j-1][i]-1),
+          pScore[j][i-1]-1);
+      tmpTest = pScore[j][i];
+    }
+  }
+  // 回溯，找到路径
+  int r = regLength, c = realLength;
+  int insertErrorCountTmp = 0;
+  int deleteErrorCountTmp = 0;
+  int substituteErrorCountTmp = 0;
+  while(r > 0 && c > 0)
+  {
+    if (pScore[r][c]+1 == pScore[r-1][c])      {
+      ++insertErrorCount; r--; continue;
+    }
+    else if (pScore[r][c]+1 == pScore[r][c-1]) {
+      ++deleteErrorCount; c--; continue;
+    }
+    else if (pScore[r][c]+1 == pScore[r-1][c-1]){
+      ++substituteErrorCount; r--; c--; continue;
+    }
+    else { r--; c--; }
+  }
+  if (r > 0 && c == 0)  insertErrorCount += r;
+  else if (c > 0 && r == 0) deleteErrorCount += c;
+
+  insertErrorCount += insertErrorCountTmp;
+  deleteErrorCount += deleteErrorCountTmp;
+  substituteErrorCount += substituteErrorCountTmp;
+
+}
+
+
+
+template <typename Dtype>
+void chinese_line_ARCR_fun(vector<vector<int> >& tmpResult, const Dtype* labelSeq, int &tmpCount,
+ const int oriInputLength,const int nFrame, const int nClasses,int &insertErrorCount,
+  int &deleteErrorCount, int &substituteErrorCount){
+
+
+  //_a_b_ -> ab
+  vector<vector<int> > theResult(nFrame);
+  for(int iv = 0; iv < nFrame; iv++){
+    for(int rv = 0; rv < tmpResult[iv].size(); rv++){
+      if(tmpResult[iv][rv] != 0){
+        theResult[iv].push_back(tmpResult[iv][rv]);
+      }
+    }
+  }
+
+  vector<vector<int> > trueLabelSeq(nFrame);
+  for(int iv = 0; iv < nFrame; iv++){
+    int tmp_wn;
+    for(tmp_wn = 0; tmp_wn < oriInputLength; tmp_wn++){
+      int tmpLabel = static_cast<int>(labelSeq[tmp_wn*nFrame+iv]);
+      if(tmpLabel == 0){
+        break;
+      }else{
+        trueLabelSeq[iv].push_back(tmpLabel);
+      }
+    }
+    tmpCount += tmp_wn;
+  }
+  for(int iv = 0; iv < nFrame; iv++){  
+    int insertErrorCountTmp = 0;
+    int deleteErrorCountTmp = 0;
+    int substituteErrorCountTmp = 0; 
+  
+    edit_distance_fun(theResult[iv],trueLabelSeq[iv],insertErrorCountTmp,deleteErrorCountTmp,
+      substituteErrorCountTmp);
+    insertErrorCount += insertErrorCountTmp;
+    deleteErrorCount += deleteErrorCountTmp;
+    substituteErrorCount += substituteErrorCountTmp;
+
+    // for(int tt = 0; tt < theResult[iv].size(); tt++){
+    //   std::cout << theResult[iv][tt] << " ";
+    // }
+    // std::cout << std::endl;
+    // for(int tt = 0; tt < trueLabelSeq[iv].size(); tt++){
+    //   std::cout << trueLabelSeq[iv][tt] << " ";
+    // }
+    // std::cout << std::endl;
+    // LOG(INFO) << " insertErrorCount: " << insertErrorCountTmp<< " deleteErrorCount: " 
+    //   << deleteErrorCountTmp<< " substituteErrorCount: " << substituteErrorCountTmp;
+    // getchar();
+  }
+
+}
+
+template <typename Dtype>
+void SequenceAccuracyTranscriptionLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+
+  const int oriInputLength = bottom[0]->shape(0);//input sequence length
+  const int nFrame      = bottom[0]->shape(1);
+  const int nClasses    = bottom[0]->shape(2);
+  int tmpAccur = 0;
+  int tmpCount = 0; 
+  int insertErrorCountTmp = 0;
+  int deleteErrorCountTmp = 0;
+  int substituteErrorCountTmp = 0; 
+
+    // The forward pass computes the softmax prob values.
+  softmax_layer_->Forward(softmax_bottom_vec_, softmax_top_vec_);
+
+  const Dtype* labelSeq = bottom[1]->cpu_data();
+  const Dtype* prob_data = prob_.cpu_data();
+
+
+  //naive decoding
+  //__aa__ -> _a_
+  vector<vector<int> > tmpResult(nFrame);
+  vector<vector<int> > oriResult(nFrame);
+  for(int tv = 0; tv < oriInputLength; tv++){
+    for(int iv = 0; iv < nFrame; iv++){
+      int maxClass = 0;
+      float maxScore = 0;
+      for(int cv = 0; cv < nClasses; cv++){
+        if(maxScore < prob_data[tv*nFrame*nClasses+iv*nClasses+cv]){
+          maxClass = cv;
+          maxScore = prob_data[tv*nFrame*nClasses+iv*nClasses+cv];
+        }        
+      }
+      oriResult[iv].push_back(maxClass);
+      if(tv > 0){
+        int lastLabel = tmpResult[iv].back();
+        if(lastLabel != maxClass){
+          tmpResult[iv].push_back(maxClass);
+        }          
+      }else{
+        tmpResult[iv].push_back(maxClass);
+      }
+    }
+  }
+
+  
+  if(this->layer_param_.accuracy_param().accuracy_method() == "english_word")
+  {
+    if (bottom.size() == 3) {
+      tmpAccur = english_word_fun(tmpResult,labelSeq,tmpCount,oriInputLength,nFrame,nClasses,
+                                  bottom[2]);
+    } else {
+      tmpAccur = english_word_fun(tmpResult,labelSeq,tmpCount,oriInputLength,nFrame,nClasses);      
+    }
+  }else if(this->layer_param_.accuracy_param().accuracy_method() == "english_line"){
+    tmpAccur = english_line_fun(tmpResult,labelSeq,tmpCount,oriInputLength,nFrame,nClasses);
+  }else if(this->layer_param_.accuracy_param().accuracy_method() == "chinese_line"){
+    tmpAccur = chinese_line_fun(tmpResult,labelSeq,tmpCount,oriInputLength,nFrame,nClasses);
+  }else if(this->layer_param_.accuracy_param().accuracy_method() == "chinese_line_ARCR"){
+    chinese_line_ARCR_fun(tmpResult,labelSeq,tmpCount,oriInputLength,nFrame,nClasses,insertErrorCountTmp,
+      deleteErrorCountTmp,substituteErrorCountTmp);
+    insertErrorCount_ += insertErrorCountTmp;
+    deleteErrorCount_ += deleteErrorCountTmp;
+    substituteErrorCount_ += substituteErrorCountTmp;
+  }
+  accuracy_ += tmpAccur;
+  count_ += tmpCount;
+
+  float tmpS,tmpCR,tmpAR;
+  if(this->layer_param_.accuracy_param().accuracy_method() == "chinese_line_ARCR"){
+    tmpS = tmpCount - deleteErrorCountTmp - substituteErrorCountTmp;
+    tmpCR = tmpS/tmpCount;
+    tmpS -= insertErrorCountTmp;
+    tmpAR = tmpS/tmpCount;   
+    LOG(INFO) << "iter_count_: " << iter_count_ <<" tmpCount: " << tmpCount << "  delete: " << deleteErrorCountTmp
+      << "  sub: " << substituteErrorCountTmp<< "  insert: " << insertErrorCountTmp; 
+    LOG(INFO) << "iter_count_: " << iter_count_ <<" tmpCR: " << tmpCR << "  tmpAR: " << tmpAR;
+
+    tmpS = count_ - deleteErrorCount_ - substituteErrorCount_;
+    tmpCR = tmpS/count_;
+    tmpS -= insertErrorCount_;
+    tmpAR = tmpS/count_; 
+    LOG(INFO) << "iter_count_: " << iter_count_ <<" count_: " << count_ << "  delete_: " << deleteErrorCount_
+      << "  sub_: " << substituteErrorCount_<< "  insert_: " << insertErrorCount_;
+    LOG(INFO) << "iter_count_: " << iter_count_ <<" totalCR: " << tmpCR << "  totalAR: " << tmpAR;
+  }else{
+    LOG(INFO) << "iter_count_: " << iter_count_ <<"right word num: " << tmpAccur << "  word num: " << tmpCount 
+        << "  accuracy: " << (float)tmpAccur / tmpCount;    
+    LOG(INFO) << "iter_count_: " << iter_count_ <<"right word num: " << accuracy_ << "  word num: " << count_ 
+        << "  accuracy: " << (float)accuracy_ / count_;    
+ 
+  }
+  top[0]->mutable_cpu_data()[0] = 0;
+  iter_count_++;
+  if(iter_count_ == this->layer_param_.accuracy_param().accuracy_iter()){
+    FILE *fptr;
+    const char*  outFileName = "accuracy_all_test.log";
+    fptr = fopen(outFileName, "a+");
+    fprintf(fptr, "%f \n", (float)accuracy_ / count_);
+    fclose(fptr);    
+    if(this->layer_param_.accuracy_param().accuracy_method() == "chinese_line_ARCR"){
+      top[0]->mutable_cpu_data()[0] = (Dtype)tmpCR * iter_count_;
+    }else{
+      top[0]->mutable_cpu_data()[0] = (Dtype)(accuracy_ / count_) / tmpCount * iter_count_;
+    }
+
+
+    insertErrorCount_ = deleteErrorCount_ = substituteErrorCount_ = 0;
+    iter_count_ = accuracy_ = count_ = 0;
+  }
+
+  if (top.size() > 1) {
+    for (int i = 0; i < top[1]->count(); ++i) {
+      top[1]->mutable_cpu_data()[i] =
+          this->nums_buffer_.cpu_data()[i] == 0 ? 0
+          : top[1]->cpu_data()[i] / this->nums_buffer_.cpu_data()[i];
+    }
+  }
+  // Accuracy layer should not be used as a loss function.
+}
+
+
+
+INSTANTIATE_CLASS(SequenceAccuracyTranscriptionLayer);
+REGISTER_LAYER_CLASS(SequenceAccuracyTranscription);
+
+
+
+}  // namespace caffe
+
+
+
+    // for(int iv = 0; iv < nFrame; iv++){
+    // std::cout << "oriResult : ";
+    // for(int rv = 0; rv < oriInputLength; rv++){
+    //   std::cout  << oriResult[iv][rv] << " ";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "tmpResult : ";
+    // for(int rv = 0; rv < tmpResult[iv].size(); rv++){
+    //   std::cout  << tmpResult[iv][rv] << " ";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "theResult : ";
+    // for(int rv = 0; rv < theResult[iv].size(); rv++){
+    //   std::cout << theResult[iv][rv] << " ";
+    // }  
+    // std::cout  << std::endl;
+    // std::cout << "trueLabel : ";
+    // for(int rv = 0; rv < oriInputLength; rv++){
+    //   std::cout << labelSeq[rv*nFrame+iv] << " ";
+    // }  
+    // std::cout  << std::endl;
+    // getchar();
+    // }
+
+
+
+  // for(int iv = 0; iv < nFrame; iv++ ){
+  //   // std::cout << "predit result:" << std::endl;
+  //   for(int wn = 0; wn < theResult[iv].size(); wn++){
+  //     for(int wl = 0; wl < theResult[iv][wn].size(); wl++){
+  //       int index =theResult[iv][wn][wl];          
+  //       std::cout << ary[index-1];
+  //     }
+  //     std::cout << " ";
+  //   }
+  //   std::cout << std::endl;
+
+  //   std::cout << "true label   :" << std::endl;
+  //   for(int wn = 0; wn < trueLabelSeq[iv].size(); wn++){
+  //     for(int wl = 0; wl < trueLabelSeq[iv][wn].size(); wl++){
+  //       int index =trueLabelSeq[iv][wn][wl];
+  //       std::cout << ary[index-1];
+  //     }
+  //     std::cout << " ";
+  //   }
+  //   std::cout << std::endl;
+  //   getchar();
+  // }
