@@ -77,7 +77,7 @@ If you find our method or the dataset useful for your research, please cite
 
 # Requirement 
 1. Clone this repository. ROOT is the directory where you clone.
-2. cd ROOT/caffe/  and use your own Makefile.config to compile. If you are using ubuntu 14.04, you may need to modify Makefile line 181 (hdf5_serial_hl hdf5_serial) to (hdf5 hdf5_hl).
+2. cd ROOT/caffe/  and use your own Makefile.config to compile (make all && make pycaffe). If you are using ubuntu 14.04, you may need to modify Makefile line 181 (hdf5_serial_hl hdf5_serial) to (hdf5 hdf5_hl).
 3. cd ROOT/lib make (based on python2)
 4. pip install shapely. (Enable computing polygon intersection.)
 
