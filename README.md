@@ -4,11 +4,11 @@ Released on December 06, 2017
 
 # Description
 
-Curve text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curve text, and it is defective to label such text with quadrangle let alone rectangle.
-<img src="images/1-1.jpg" width="50%">
-<img src="images/1-2.jpg" width="50%">
-<img src="images/1-3.jpg" width="50%">
-Curve bounding box has three remarkable advantages: avoid needless overlap, Less background noise and avoid multiple text lines. We introduce our dataset and our CTD method at [(arxiv paper)](coming soon).
+Curve text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curve text, and it is defective to label such text with quadrangle let alone rectangle. Curve bounding box has three remarkable advantages:
+<div align=center><img src="images/1-1.jpg" width="50%" alt = “Avoid needless overlap”></div>
+<div align=center><img src="images/1-2.jpg" width="50%" alt = “Less background noise”></div>
+<div align=center><img src="images/1-3.jpg" width="50%" alt = “Avoid multiple text lines”></div>
+We introduce our dataset and our CTD method at [(arxiv paper)](coming soon).
 
 # Clone the Curve-Text-Detector repository
 
@@ -34,6 +34,8 @@ a) Train - It contains 1000 images.
 
 b) Test - It contains 500 images.
 
+c) Each image contains at least 1 curve text.
+
 Note:
 1. The CTW1500 dataset can be used only for non-commercial research purpose.
 
@@ -55,6 +57,10 @@ put model in ROOT/output/
 
 * [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start.
 
+# Detecting Results
+More details can be found our paper.
+<img src="images/table.png" width="100%">
+<img src="images/detect_results.png" width="100%">
 
 # Citation
 If you find our method or the dataset useful for your research, please cite
