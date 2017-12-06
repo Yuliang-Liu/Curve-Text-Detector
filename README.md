@@ -52,10 +52,10 @@ put model in ./output/
 ## Citation
 If you find our method or the dataset useful for your research, please cite
 
-## Requirement
+## Requirement 
 1. Clone this repository.
-2. cd ./lib make 
-3. cd ./caffe/  and compile. 
+2. cd ROOT/caffe/  and compile. (ROOT is where root directory of this repository)
+3. cd ROOT/lib make 
 4. pip install shapely. (Enable computing polygon intersection.)
 
     
@@ -63,4 +63,4 @@ If you find our method or the dataset useful for your research, please cite
 Suggestions and opinions of this dataset (both positive and negative) are greatly welcome. Please contact the authors by sending email to
 `liu.yuliang@mail.scut.edu.cn`.
 
-## Acknowlege
+## acknowledgement
