@@ -8,8 +8,11 @@ Curve text are very common in our real-world. For examples, text in most kinds o
 <div align=center><img src="images/1-1.jpg" width="50%" ></div>
 <div align=center><img src="images/1-2.jpg" width="50%" ></div>
 <div align=center><img src="images/1-3.jpg" width="50%"></div>
+
 * Avoid needless overlap
+
 * Less background noise
+
 * Avoid multiple text lines
 
 We introduce our dataset and our CTD method at [(our paper)](coming soon).
