@@ -62,7 +62,9 @@ put model in ROOT/output/
 
 * [test.sh](./test.py) After downloading the dataset and our ctd_tloc.caffemodel, simply run the this file can evaluate our method on the CTW1500 test set. Uncommend --vis to visualize the detecting results.
 
-* [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start.
+* [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start. 
+
+Both train and test require less than 4GB video memory.
 
 # Detecting Results 
 <img src="images/table.png" width="100%">
