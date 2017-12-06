@@ -31,7 +31,7 @@ Clone the Curve-Text-Detector repository
 
 The CTW1500 dataset can be downloaded through the following link:
 
-(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (Size = 836Mb).
+(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (Size = 842Mb).
 
 unzip the file in ROOT/data/ 
 
