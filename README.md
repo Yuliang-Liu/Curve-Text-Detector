@@ -4,17 +4,23 @@ Released on December 06, 2017
 
 # Description
 
-This method is aimed for curve text detection. 
+Curve text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curve text, and it is defective to label such text with quadrangle let alone rectangle.
+<img src="images/1-1.jpg" width="50%">
+<img src="images/1-2.jpg" width="50%">
+<img src="images/1-3.jpg" width="50%">
+Curve bounding box has three remarkable advantages: avoid needless overlap, Less background noise and avoid multiple text lines. We introduce our dataset and our CTD method at [(arxiv paper)](coming soon).
 
-# Clone the caffe-model repository
+# Clone the Curve-Text-Detector repository
 
-Clone the caffe-model repository
+Clone the Curve-Text-Detector repository
   ```Shell
   git clone https://github.com/Yuliang-Liu/Curve-Text-Detector.git --recursive
   ```
 
 # Getting Started
 ## Dataset
+
+<img src="images/annotation.jpg" width="100%">
 
 The CTW1500 dataset can be downloaded through the following link:
 
@@ -49,10 +55,11 @@ put model in ROOT/output/
 
 * [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start.
 
-## Citation
+
+# Citation
 If you find our method or the dataset useful for your research, please cite
 
-## Requirement 
+# Requirement 
 1. Clone this repository. ROOT is the directory where you clone.
 2. cd ROOT/caffe/  and use your own Makefile.config to compile. 
 3. cd ROOT/lib make (based on python2)
@@ -62,5 +69,3 @@ If you find our method or the dataset useful for your research, please cite
 ## Feedback
 Suggestions and opinions of this dataset (both positive and negative) are greatly welcome. Please contact the authors by sending email to
 `liu.yuliang@mail.scut.edu.cn`.
-
-## acknowledgement
