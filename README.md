@@ -64,9 +64,11 @@ put model in ROOT/output/
 
 * [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start.
 
-# Detecting Results (more details can be found on our paper)
+# Detecting Results 
 <img src="images/table.png" width="100%">
 <img src="images/detect_results.png" width="100%">
+
+More details can be found on our paper.
 
 # Citation
 If you find our method or the dataset useful for your research, please cite
