@@ -8,7 +8,7 @@ Curve text are very common in our real-world. For examples, text in most kinds o
 <div align=center><img src="images/1-1.jpg" width="50%" alt = “Avoid needless overlap”></div>
 <div align=center><img src="images/1-2.jpg" width="50%" alt = “Less background noise”></div>
 <div align=center><img src="images/1-3.jpg" width="50%" alt = “Avoid multiple text lines”></div>
-We introduce our dataset and our CTD method at [(arxiv paper)](coming soon).
+We introduce our dataset and our CTD method at [(our paper)](coming soon).
 
 # Clone the Curve-Text-Detector repository
 
@@ -57,8 +57,7 @@ put model in ROOT/output/
 
 * [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start.
 
-# Detecting Results
-More details can be found our paper.
+# Detecting Results (more details can be found on our paper)
 <img src="images/table.png" width="100%">
 <img src="images/detect_results.png" width="100%">
 
