@@ -1,6 +1,6 @@
 it=$1
 
-./tools/test_net.py --gpu 1 \
+./tools/test_net.py --gpu 0 \
   --def models/ctd/test_ctd_tloc.prototxt \
   --net output/ctd_tloc.caffemodel \
   --imdb ctw1500_test \

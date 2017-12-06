@@ -2,7 +2,7 @@
 
 The CTW1500 dataset can be downloaded through the following link:
 
-() (Size = 836Mb).
+(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (Size = 836Mb).
 
 unzip the file in ./data/ 
 
