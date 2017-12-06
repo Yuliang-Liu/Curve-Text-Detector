@@ -5,9 +5,13 @@ Released on December 06, 2017
 # Description
 
 Curve text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curve text, and it is defective to label such text with quadrangle let alone rectangle. Curve bounding box has three remarkable advantages:
-<div align=center><img src="images/1-1.jpg" width="50%" alt = “Avoid needless overlap”></div>
-<div align=center><img src="images/1-2.jpg" width="50%" alt = “Less background noise”></div>
-<div align=center><img src="images/1-3.jpg" width="50%" alt = “Avoid multiple text lines”></div>
+<div align=center><img src="images/1-1.jpg" width="50%" ></div>
+<div align=center><img src="images/1-2.jpg" width="50%" ></div>
+<div align=center><img src="images/1-3.jpg" width="50%"></div>
+* Avoid needless overlap
+* Less background noise
+* Avoid multiple text lines
+
 We introduce our dataset and our CTD method at [(our paper)](coming soon).
 
 # Clone the Curve-Text-Detector repository
