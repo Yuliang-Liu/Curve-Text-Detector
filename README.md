@@ -43,6 +43,10 @@ b) Test - It contains 500 images.
 
 c) Each image contains at least 1 curve text.
 
+The visualization of the annotated images can be downloaded through the following link:
+
+(https://pan.baidu.com/s/1eR641zG PASSWORD: 5xei) (Size = 696 Mb).
+
 ## Pre-trained model and our trained model
 
 We use resnet-50 model as our pre-trained model, which can be download through the following link:
