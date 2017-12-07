@@ -13,10 +13,10 @@ There are two file (train) and (test) inside ROOT/data/ctw1500/. Each one has fo
 a) **text_image** contains images files.
 
 b) **text_label_curve** cotains annotation files with suffix ".txt"
-	- The file name is correspoinding to image file.
-	- Each line of the each file represents one text region.
-	- Each line has 32 values, representing xmin, ymin, xmax, ymax (of the circumsribed rectangle), pw1, ph1, ..., pw14, ph14.
-	- For Rectangle or Quadrangle bounding box, the extra 20 offsets are automatically created, so every bounding box has 32 values.
+* The file name is correspoinding to image file.
+* Each line of the each file represents one text region.
+* Each line has 32 values, representing xmin, ymin, xmax, ymax (of the circumsribed rectangle), pw1, ph1, ..., pw14, ph14.
+* For Rectangle or Quadrangle bounding box, the extra 20 offsets are automatically created, so every bounding box has 32 values.
 
 c) **trainval.txt** or **test.txt** are the list of the image file. 
 
