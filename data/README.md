@@ -26,7 +26,7 @@ d) **trainval_label_curve.txt** or **test_label_curve.txt** are the list of the 
 
 Below shows how we label the data.
 
-<img src="labeling.gif" width="100%">
+<img src="labeling.gif" width="50%">
 
 The labeling tool will also be released later.
 
