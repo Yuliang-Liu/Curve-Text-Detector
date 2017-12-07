@@ -29,7 +29,7 @@ Clone the Curve-Text-Detector repository
 
 <img src="images/annotation.jpg" width="100%">
 
-The CTW1500 dataset can be downloaded through the following link:
+The SCUT-CTW1500 dataset can be downloaded through the following link:
 
 (https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (Size = 842Mb).
 
@@ -43,9 +43,6 @@ b) Test - It contains 500 images.
 
 c) Each image contains at least 1 curve text.
 
-Note:
-1. The CTW1500 dataset can be used only for non-commercial research purpose.
-
 ## Pre-trained model and our trained model
 
 We use resnet-50 model as our pre-trained model, which can be download through the following link:
@@ -54,15 +51,15 @@ We use resnet-50 model as our pre-trained model, which can be download through t
 
 put model in ROOT/data/imagenet_models/
 
-Our model trained with CTW1500 training set can be download through the following link:
+Our model trained with SCUT-CTW1500 training set can be download through the following link:
 
 (https://pan.baidu.com/s/1gfs5vH5 PASSWORD: 1700) (Size = 114Mb).
 
 put model in ROOT/output/
 
-* [test.sh](./test.py) After downloading the dataset and our ctd_tloc.caffemodel, simply run the this file can evaluate our method on the CTW1500 test set. Uncommend --vis to visualize the detecting results.
+* [test.sh](./test.py) After downloading the dataset and our ctd_tloc.caffemodel, simply run the this file can evaluate our method on the SCUT-CTW1500 test set. Uncommend --vis to visualize the detecting results.
 
-* [my_train.sh](./my_train.sh) This file shows how to train on the CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start. 
+* [my_train.sh](./my_train.sh) This file shows how to train on the SCUT-CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start. 
 
 Both train and test require less than 4GB video memory.
 
@@ -95,3 +92,10 @@ If you find our method or the dataset useful for your research, please cite
 ## Feedback
 Suggestions and opinions of this dataset (both positive and negative) are greatly welcome. Please contact the authors by sending email to
 `liu.yuliang@mail.scut.edu.cn`.
+
+# Copyright
+The SCUT-CTW1500 database is free to the academic community for research purpose usage only.
+
+For commercial purpose usage, please contact Dr. Lianwen Jin: [eelwjin@scut.edu.cn](eelwjin@scut.edu.cn)
+
+Copyright 2017, Deep Learning and Vision Computing Lab, South China China University of Technology. [http://www.dlvc-lab.net](http://www.dlvc-lab.net)
