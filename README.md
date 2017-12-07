@@ -93,7 +93,7 @@ If you find our method or the dataset useful for your research, please cite
 Suggestions and opinions of this dataset (both positive and negative) are greatly welcome. Please contact the authors by sending email to
 `liu.yuliang@mail.scut.edu.cn`.
 
-# Copyright
+## Copyright
 The SCUT-CTW1500 database is free to the academic community for research purpose usage only.
 
 For commercial purpose usage, please contact Dr. Lianwen Jin: [eelwjin@scut.edu.cn](eelwjin@scut.edu.cn)
