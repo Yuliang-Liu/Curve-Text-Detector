@@ -22,5 +22,13 @@ c) **trainval.txt** or **test.txt** are the list of the image file.
 
 d) **trainval_label_curve.txt** or **test_label_curve.txt** are the list of the label file.
 
+## Labeling tool
+
+Below shows how we label the data.
+
+<img src="labeling.gif" width="100%">
+
+The labeling tool will also be released later.
+
 Note:
 1. The SCUT-CTW1500 dataset can be used only for non-commercial research purpose.
