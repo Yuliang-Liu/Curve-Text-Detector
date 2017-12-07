@@ -33,7 +33,6 @@ def py_cpu_nms(dets, thresh):
 
 # Written by yl
 def py_cpu_pnms(dets, thresh):
-    """Pure Python NMS baseline."""
     bbox = dets[:, :4]
     scores = dets[:, 4]
     info_bbox = dets[:, 5:33] # syn
@@ -49,10 +48,11 @@ def py_cpu_pnms(dets, thresh):
     for il in xrange(len(pts)):
         poly = Polygon(pts[il])
         areas[il] = poly.area
-        for jl in xrange(len(pts)):
+        for jl in xrange(il, len(pts)):
             polyj = Polygon(pts[jl])
             inS = poly.intersection(polyj)
             inter_areas[il][jl] = inS.area
+            inter_areas[jl][il] = inS.area
 
     keep = []
     while order.size > 0:
