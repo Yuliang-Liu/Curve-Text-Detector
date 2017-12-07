@@ -15,7 +15,7 @@ Curve text are very common in our real-world. For examples, text in most kinds o
 
 * Avoid multiple text lines
 
-We introduce our dataset and our CTD method at [(our paper)](coming soon).
+We introduce our dataset and our CTD method at [(our paper)](https://arxiv.org/abs/1712.02170).
 
 # Clone the Curve-Text-Detector repository
 
@@ -73,7 +73,7 @@ Both train and test require less than 4GB video memory.
 More details can be found on our paper.
 
 # Citation
-If you find our method or the dataset useful for your research, please cite
+If you find our method or the dataset useful for your research, please cite as (arXiv:1712.02170 [cs.CV])
 
 # Requirement 
 1. Clone this repository. ROOT is the directory where you clone.
