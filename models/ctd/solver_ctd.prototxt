@@ -10,7 +10,7 @@ weight_decay: 0.0005
 # function
 snapshot: 0
 # We still use the snapshot prefix, though
-snapshot_prefix: "ctd_t16_tloc_lstm" # syn_disHW_lstm syn_disHW_BLSTM
+snapshot_prefix: "ctd_tloc" 
 clip_gradients: 20
 iter_size: 4
 # debug_info: true
