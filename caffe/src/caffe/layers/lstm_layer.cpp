@@ -149,7 +149,7 @@ void LSTMLayer<Dtype>::FillUnrolledNet(NetParameter* net_param) const {
   output_concat_layer.add_top("h");
   output_concat_layer.mutable_concat_param()->set_axis(0);
 
-  // T_ == batch size
+  // T_ == number of the time steps
   for (int t = 1; t <= this->T_; ++t) {
     string tm1s = this->int_to_str(t - 1);
     string ts = this->int_to_str(t);
@@ -223,23 +223,6 @@ void LSTMLayer<Dtype>::FillUnrolledNet(NetParameter* net_param) const {
       lstm_unit_param->add_top("h_" + ts);
       lstm_unit_param->set_name("unit_" + ts);
     }
-
-    // {
-    //   LayerParameter* c_dropout_param = net_param->add_layer();
-    //   c_dropout_param->set_type("Dropout");
-    //   c_dropout_param->add_bottom("c_" + ts);
-    //   c_dropout_param->add_top("c_" + ts);
-    //   c_dropout_param->set_name("c_dropout_" + ts);
-    //   c_dropout_param->mutable_dropout_param()->set_dropout_ratio(dropout_ratio);
-    // }
-    // {
-    //   LayerParameter* h_dropout_param = net_param->add_layer();
-    //   h_dropout_param->set_type("Dropout");
-    //   h_dropout_param->add_bottom("h_" + ts);
-    //   h_dropout_param->add_top("h_" + ts);
-    //   h_dropout_param->set_name("h_dropout_" + ts);
-    //   h_dropout_param->mutable_dropout_param()->set_dropout_ratio(dropout_ratio);
-    // }
 
     output_concat_layer.add_bottom("h_" + ts);
   }  // for (int t = 1; t <= this->T_; ++t)

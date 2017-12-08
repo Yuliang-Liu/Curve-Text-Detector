@@ -38,27 +38,6 @@ template <typename Dtype>
 void BLSTMLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
 
-  // const int widthNum = bottom[0]->shape(0);
-  // const int sampleNum = bottom[0]->shape(1);
-  // const int dimNum = bottom[0]->shape(2);
-
-  // LOG(INFO) << "widthNum" << widthNum;
-  // LOG(INFO) << "sampleNum" << sampleNum;
-  // LOG(INFO) << "dimNum" << dimNum;
-  // getchar();
-
-  // const Dtype* tmp = bottom[0]->cpu_data();
-  // for (int i = 0; i < widthNum; ++i)
-  // {
-  //   LOG(INFO) << " i " << i << " bottom: " << tmp[i*sampleNum*dimNum+0*dimNum+0];
-  // }
-  // getchar();
-  // const Dtype* tmp2 = bottom[1]->cpu_data();
-  // for (int i = 0; i < widthNum; ++i)
-  // {
-  //   LOG(INFO) << " i " << i << " top: " << tmp2[i*sampleNum+0];
-  // }
-  // getchar();
   // Hacky fix for test time... reshare all the shared blobs.
   // TODO: somehow make this work non-hackily.
   for (int m = 0; m < 2; ++m) {
