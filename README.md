@@ -76,9 +76,9 @@ More details can be found on our paper [(https://arxiv.org/abs/1712.02170)](http
 # Citation
 If you find our method or the dataset useful for your research, please cite 
 ```
-@article{liu2017detecting,
+@article{yuliang2017detecting,
   title     = {Detecting Curve Text in the Wild: New Dataset and New Solution},
-  author    = {Liu, Yuliang and Jin, Lianwen and Zhang Shuaitao and Zhang Sheng},
+  author    = {Yuliang, Liu and Lianwen, Jin and Shuaitao Zhang and Sheng, Zhang},
   jurnal    = {arXiv preprint arXiv:1712.02170},
   year      = {2017}
 }
