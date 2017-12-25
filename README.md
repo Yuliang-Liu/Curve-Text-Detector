@@ -77,16 +77,16 @@ Train and test files are put under (model/ctd/smooth_effect/), and both the trai
 To visulize the ctd+tloc, simply uncomment ctd in the last of the test.prototxt, vice versa. Below are the first three images in our test set: 
 
 <table><tr>
-	<td><img src="images/smooth_compare1.png" width="100%" border=0></td>
-	<td><img src="images/smooth_compare2.png" width="100%" border=0></td>
-	<td><img src="images/smooth_compare3.png" width="100%" border=0></td>
+	<td><img src="images/smooth_compare1.png" width="50%" border=0></td>
+	<td><img src="images/smooth_compare2.png" width="50%" border=0></td>
+	<td><img src="images/smooth_compare3.png" width="50%" border=0></td>
 </tr></table>
 
 If you are insterested in it, you can train your own model to test. Because training doesn't require so much time, we don't upload our own model (Of course, you can email me for it). 
 
 # Long side interpolation (LSI) 
 Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or quadrilater bounding boxes without extra manual efforts. Based on our recent research, the stronger supervision can also effectively improve the performance.
-<div align=center><img src="images/in1.jpg" width="70%" ></div>
+<div align=center><img src="images/in1.jpg" width="50%" ></div>
 
 # Detecting Results 
 <img src="images/table.png" width="100%">
