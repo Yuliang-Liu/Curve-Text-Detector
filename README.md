@@ -77,9 +77,9 @@ Train and test files are put under (model/ctd/smooth_effect/), and both the trai
 To visulize the ctd+tloc, simply uncomment ctd in the last of the test.prototxt, vice versa. Below are the first three images in our test set: 
 
 <figure class="third">
-    <img src="images/smooth_compare1.png" width="260" height="180"/>
-    <img src="images/smooth_compare2.png" width="260" height="180"/>
-    <img src="images/smooth_compare3.png" width="260" height="180"/>
+    <img src="images/s1.png" width="240" height="180"/>
+    <img src="images/s2.png" width="240" height="180"/>
+    <img src="images/s3.png" width="240" height="180"/>
 </figure>
 
 If you are insterested in it, you can train your own model to test. Because training doesn't require so much time, we don't upload our own model (Of course, you can email me for it). 
