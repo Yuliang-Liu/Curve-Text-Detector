@@ -67,6 +67,23 @@ put model in ROOT/output/
 
 Both train and test require less than 4GB video memory.
 
+* [demo.py](./tools/demo.py) (cd tools/) then (python demo.py). This file easily shows how to test other images. With provided model, it can produce like
+
+<div align=center><img src="images/demo_result.png" width="50%" ></div>
+
+# Comparing smooth effect by TLOC 
+Train and test files are put under (model/ctd/smooth_effect/), and both the training and testing procedures are the same as above.
+
+To visulize the ctd+tloc, simply uncomment ctd in the last of the test.prototxt, vice versa. Below are the first three images in our test set: 
+
+<table><tr>
+	<td><img src="images/smooth_compare1.png" width="100%" border=0></td>
+	<td><img src="images/smooth_compare2.png" width="100%" border=0></td>
+	<td><img src="images/smooth_compare3.png" width="100%" border=0></td>
+</tr></table>
+
+If you are insterested in it, you can train your own model to test. Because training doesn't require so much time, we don't upload our own model (Of course, you can email me for it). 
+
 # Detecting Results 
 <img src="images/table.png" width="100%">
 <img src="images/detect_results.png" width="100%">
