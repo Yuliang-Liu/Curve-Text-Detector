@@ -4,7 +4,7 @@ Released on December 06, 2017
 
 # Description
 
-Curve text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curve text, and it is defective to label such text with quadrangle let alone rectangle. Curve bounding box has three remarkable advantages:
+Curved text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curved text, and it is defective to label such text with quadrangle let alone rectangle. Curved bounding box has three remarkable advantages:
 <div align=center><img src="images/1-1.jpg" width="50%" ></div>
 <div align=center><img src="images/1-2.jpg" width="50%" ></div>
 <div align=center><img src="images/1-3.jpg" width="50%"></div>
@@ -15,7 +15,7 @@ Curve text are very common in our real-world. For examples, text in most kinds o
 
 * Avoid multiple text lines
 
-We introduce our dataset and our CTD method at our paper [(https://arxiv.org/abs/1712.02170)](https://arxiv.org/abs/1712.02170).
+Our dataset and CTD method are introduced in our paper (coming soon). 
 
 # Clone the Curve-Text-Detector repository
 
@@ -31,41 +31,44 @@ Clone the Curve-Text-Detector repository
 
 The SCUT-CTW1500 dataset can be downloaded through the following link:
 
-(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (Size = 842Mb).
+(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (BaiduYun. Size = 842Mb). 
+or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
 
 ### Dataset Information
 
-a) Train - It contains 1000 images.
+a) Train/ - 1000 images.
 
-b) Test - It contains 500 images.
+b) Test/ - 500 images.
 
-c) Each image contains at least 1 curve text.
+c) Each image contains at least 1 curved text.
 
 The visualization of the annotated images can be downloaded through the following link:
 
-(https://pan.baidu.com/s/1eR641zG PASSWORD: 5xei) (Size = 696 Mb).
+(https://pan.baidu.com/s/1eR641zG PASSWORD: 5xei) (BaiduYun. Size = 696 Mb).
 
 ## Pre-trained model and our trained model
 
 We use resnet-50 model as our pre-trained model, which can be download through the following link:
 
-(https://pan.baidu.com/s/1eSJBL5K PASSWORD: mcic) (Size = 102Mb).
+(https://pan.baidu.com/s/1eSJBL5K PASSWORD: mcic) (Baidu Yun. Size = 102Mb).
+or (https://1drv.ms/u/s!Aplwt7jiPGKilHwMsW2N_bfnb0Bx) (OneDrive)
 
 put model in ROOT/data/imagenet_models/
 
 Our model trained with SCUT-CTW1500 training set can be download through the following link:
 
-(https://pan.baidu.com/s/1gfs5vH5 PASSWORD: 1700) (Size = 114Mb).
+(https://pan.baidu.com/s/1gfs5vH5 PASSWORD: 1700) (BaiduYun. Size = 114Mb).
+or (https://1drv.ms/u/s!Aplwt7jiPGKilH0rLDFrRof8qmRD) (OneDrive)
 
 put model in ROOT/output/
 
-* [test.sh](./test.py) After downloading the dataset and our ctd_tloc.caffemodel, simply run the this file can evaluate our method on the SCUT-CTW1500 test set. Uncommend --vis to visualize the detecting results.
+* [test.sh](./test.py) Downloading the dataset and our ctd_tloc.caffemodel, and running this file to evaluate our method on the SCUT-CTW1500 test set. Uncommend --vis to visualize the detecting results.
 
-* [my_train.sh](./my_train.sh) This file shows how to train on the SCUT-CTW1500 dataset. After downloading the dataset and resnet-50 pre-trained model, simply running my_train.sh to start. 
+* [my_train.sh](./my_train.sh) This file shows how to train on the SCUT-CTW1500 dataset. Downloading the dataset and resnet-50 pre-trained model, and running my_train.sh to start training. 
 
-Both train and test require less than 4GB video memory.
+Both train and test require less than 4 GB video memory.
 
 * [demo.py](./tools/demo.py) (cd tools/) then (python demo.py). This file easily shows how to test other images. With provided model, it can produce like
 
@@ -90,22 +93,13 @@ Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or 
 <div align=center><img src="images/in1.jpg" width="50%" ></div>
 
 # Detecting Results 
-<img src="images/table.png" width="100%">
+<!-- <img src="images/table.png" width="100%"> -->
 <img src="images/detect_results.png" width="100%">
 
-More details can be found on our paper [(https://arxiv.org/abs/1712.02170)](https://arxiv.org/abs/1712.02170).
+More details can be found on our paper. (coming soon)
 
-# Citation
-If you find our method or the dataset useful for your research, please cite 
-```
-@article{yuliang2017detecting,
-  title={Detecting Curve Text in the Wild: New Dataset and New Solution},
-  author={Yuliang, Liu and Lianwen, Jin and Shuaitao, Zhang and Sheng, Zhang},
-  journal={arXiv preprint arXiv:1712.02170},
-  year={2017}
-}
-```
-
+# Labeling tool 
+  For labeling tool and other information about the gound truths, please refer to data/README.md.
 
 
 # Requirement 
