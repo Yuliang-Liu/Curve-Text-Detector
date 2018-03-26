@@ -15,7 +15,7 @@ Curved text are very common in our real-world. For examples, text in most kinds 
 
 * Avoid multiple text lines
 
-Our dataset and CTD method are introduced in our paper (coming soon). 
+Our dataset and CTD method are introduced in our paper (Updating). 
 
 # Clone the Curve-Text-Detector repository
 
@@ -99,7 +99,7 @@ Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or 
 <!-- <img src="images/table.png" width="100%"> -->
 <img src="images/detect_results.png" width="100%">
 
-More details can be found on our paper. (coming soon)
+More details can be found on our paper. (Updating)
 
 # Labeling tool 
   For labeling tool and other information about the gound truths, please refer to data/README.md.
