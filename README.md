@@ -31,7 +31,8 @@ Clone the Curve-Text-Detector repository
 
 The SCUT-CTW1500 dataset can be downloaded through the following link:
 
-(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (BaiduYun. Size = 842Mb). 
+(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (BaiduYun. Size = 842Mb)
+
 or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
@@ -52,14 +53,16 @@ The visualization of the annotated images can be downloaded through the followin
 
 We use resnet-50 model as our pre-trained model, which can be download through the following link:
 
-(https://pan.baidu.com/s/1eSJBL5K PASSWORD: mcic) (Baidu Yun. Size = 102Mb).
+(https://pan.baidu.com/s/1eSJBL5K PASSWORD: mcic) (Baidu Yun. Size = 102Mb)
+
 or (https://1drv.ms/u/s!Aplwt7jiPGKilHwMsW2N_bfnb0Bx) (OneDrive)
 
 put model in ROOT/data/imagenet_models/
 
 Our model trained with SCUT-CTW1500 training set can be download through the following link:
 
-(https://pan.baidu.com/s/1gfs5vH5 PASSWORD: 1700) (BaiduYun. Size = 114Mb).
+(https://pan.baidu.com/s/1gfs5vH5 PASSWORD: 1700) (BaiduYun. Size = 114Mb)
+
 or (https://1drv.ms/u/s!Aplwt7jiPGKilH0rLDFrRof8qmRD) (OneDrive)
 
 put model in ROOT/output/
