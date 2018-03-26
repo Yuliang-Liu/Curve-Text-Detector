@@ -2,7 +2,9 @@
 
 The SCUT-CTW1500 dataset can be downloaded through the following link:
 
-(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf) (Size = 836Mb).
+(https://pan.baidu.com/s/1eSvpq7o PASSWORD: fatf)
+
+or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
 
