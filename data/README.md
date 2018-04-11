@@ -32,7 +32,7 @@ Below shows how we label the data.
 
 The labeling tool and manual can be downloaded through the following links:
 
-Ubutnu label tool: https://1drv.ms/u/s!AradqGvJ8Ebta94HFxxGrtavTUo
+Ubuntu label tool: https://1drv.ms/u/s!AradqGvJ8Ebta94HFxxGrtavTUo
 
 Windows label tool: Coming soon.
 
