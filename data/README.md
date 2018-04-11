@@ -30,7 +30,13 @@ Below shows how we label the data.
 
 <img src="labeling.gif" width="50%">
 
-The labeling tool will also be released later.
+The labeling tool and manual can be downloaded through the following links:
+
+Ubutnu label tool: https://1drv.ms/u/s!AradqGvJ8Ebta94HFxxGrtavTUo
+
+Windows label tool: Coming soon.
+
+Manual: https://1drv.ms/b/s!AradqGvJ8EbtahczW759VekS4lg 
 
 Note:
 1. The SCUT-CTW1500 dataset can be used only for non-commercial research purpose.

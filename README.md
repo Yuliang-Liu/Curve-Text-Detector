@@ -15,7 +15,7 @@ Curved text are very common in our real-world. For examples, text in most kinds 
 
 * Avoid multiple text lines
 
-Our dataset and CTD method are introduced in our paper (Updating). 
+Our dataset and CTD method are introduced in our paper [(https://arxiv.org/abs/1712.02170)](https://arxiv.org/abs/1712.02170). 
 
 # Clone the Curve-Text-Detector repository
 
@@ -99,11 +99,20 @@ Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or 
 <!-- <img src="images/table.png" width="100%"> -->
 <img src="images/detect_results.png" width="100%">
 
-More details can be found on our paper. (Updating)
 
 # Labeling tool 
   For labeling tool and other information about the gound truths, please refer to data/README.md.
 
+# Citation
+If you find our method or the dataset useful for your research, please cite 
+```
+@article{yuliang2017detecting,
+  title={Detecting Curve Text in the Wild: New Dataset and New Solution},
+  author={Yuliang, Liu and Lianwen, Jin and Shuaitao, Zhang and Sheng, Zhang},
+  journal={arXiv preprint arXiv:1712.02170},
+  year={2017}
+}
+```
 
 # Requirement 
 1. Clone this repository. ROOT is the directory where you clone.
@@ -111,7 +120,9 @@ More details can be found on our paper. (Updating)
 3. cd ROOT/lib make (based on python2)
 4. pip install shapely. (Enable computing polygon intersection.)
 
-    
+## Advertisement
+Our recent Mask TTD can achieve 78% F-measure in this SCUT-CTW1500 dataset under the same setting, which can also achieve superior performance on many benchmark datasets. The paper would be released later.
+
 ## Feedback
 Suggestions and opinions of this dataset (both positive and negative) are greatly welcome. Please contact the authors by sending email to
 `liu.yuliang@mail.scut.edu.cn`.
