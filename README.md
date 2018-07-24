@@ -2,6 +2,10 @@
 
 Released on December 06, 2017
 
+# Recent Update
+  
+ctw1500 evaluation script is provided, as introduced below.
+
 # Description
 
 Curved text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curved text, and it is defective to label such text with quadrangle let alone rectangle. Curved bounding box has three remarkable advantages:
@@ -108,7 +112,7 @@ Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or 
 4. pip install shapely. (Enable computing polygon intersection.)
 
 # Evaluation
-  We provide a breif evaluation script for researches to evaluate their own methods in the ctw1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md
+  We provide a brief evaluation script for researches to evaluate their own methods in the ctw1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md
 
 ## Feedback
 Suggestions and opinions of this dataset (both positive and negative) are greatly welcome. Please contact the authors by sending email to
