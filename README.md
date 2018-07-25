@@ -15,13 +15,13 @@ Released on December 06, 2017
 |Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |      -         |
 |Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |       -        |
 |SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |        -       |
-|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)        | 85.3     |  67.9       |    75.6     |          -     |
+|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)        | 85.3     |  67.9       |    75.6     |          PT(S(800K))    |
 |PSENet-4s [[paper]](http://export.arxiv.org/abs/1806.02559)  |  78.13    |  85.49      |    79.29     |   PT(IC15(1K)+ MLT(9K))     |
 |PSENet-2s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.3     |  81.95      |    80.6     |   PT(IC15(1K)+ MLT(9K))          |
 |PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.89    |  82.50       |    81.17     |   PT(IC15(1K)+ MLT(9K))          |
 
 
-*PT: pretrained data. S: synthesize data. PA: private data. PB: public data.
+*PT: pretrained data. S: synthesize data. PA: private data. PB (or name): public data.
 
 # Description
 
