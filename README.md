@@ -6,7 +6,7 @@ Released on December 06, 2017
   
 (July 25, 2018)
 
-- We provide a brief evaluation script for researches to evaluate their own methods in the ctw1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
+- We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
 
 - The results from recent papers on the CTW1500 dataset are listed (Note that the table only listed the results from published papers. If your detection results on this dataset is missed, please let me know. )
 
