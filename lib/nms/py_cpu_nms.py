@@ -31,7 +31,7 @@ def py_cpu_nms(dets, thresh):
 
     return keep
 
-# Written by yl
+# @yl
 def py_cpu_pnms(dets, thresh):
     bbox = dets[:, :4]
     scores = dets[:, 4]

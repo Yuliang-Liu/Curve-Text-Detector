@@ -4,6 +4,10 @@ Released on December 06, 2017
 
 # Recent Update 
   
+(Nov. 22, 2018)
+Recognition annotation of the SCUT-CTW1500 can be download from:
+(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
+
 (July 25, 2018)
 
 - We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
