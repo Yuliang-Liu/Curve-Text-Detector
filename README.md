@@ -5,7 +5,8 @@ Released on December 06, 2017
 # Recent Update 
   
 (Nov. 22, 2018)
-Recognition annotation of the SCUT-CTW1500 can be download from:
+
+Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:
 (https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
 
 (July 25, 2018)
