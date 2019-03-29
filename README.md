@@ -17,11 +17,12 @@ Recognition annotation of the SCUT-CTW1500 can be downloaded through the followi
 
 | Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   |
 |:--------:  | :-----:   | :----:      |  :-----:     | :-----: |
-|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |   arXiv 1712 |   
-|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |   arXiv 1712 |  
+|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector)     | 65.2     |  74.3       |    69.5      |   arXiv 1712 |   
+|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector) | 69.8     |  74.3       |    73.4      |   arXiv 1712 |  
 |SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   
 |TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |        
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 |
+|MSR [[paper]](https://arxiv.org/abs/1901.02596)| 77.8     |  83.8       |    80.7      |   arXiv 1901 |
 |TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8     |  83.0       |    81.4      |   TIP 2019 |
 |PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)[[code]](https://github.com/WenmuZhou/PSENet.pytorch)  | 79.89    |  82.50       |    81.17     |  arXiv 1806 |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |
