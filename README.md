@@ -4,7 +4,7 @@
 
 # News
 
-SCUT-CTW1500 is a text-line based dataset with both English and Chinese instances. If you are insterested in word-level based Engish curve text, we highly recommend you refer to [Total-text](https://github.com/search?q=total-text). In addition, a rencent ICDAR2019 Robust Reading Challenge on Arbitrary-Shaped Text ([Art](http://rrc.cvc.uab.es/?ch=14)), which is extended from SCUT-CTW1500 and Total-text, is held for stimulating more improvements on the arbitrary-shaped text reading task. We welcome your participant, and the winner will be rewarded with substantial awards.
+SCUT-CTW1500 is a text-line based dataset with both English and Chinese instances. If you are insterested in word-level based Engish curve text, we highly recommend you refer to [Total-text](https://github.com/search?q=total-text). In addition, a rencent ICDAR2019 Robust Reading Challenge on Arbitrary-Shaped Text ([ArT](http://rrc.cvc.uab.es/?ch=14)), which is extended from SCUT-CTW1500 and Total-text, is held for stimulating more improvements on the arbitrary-shaped text reading task. We welcome your participant, and the winner will be rewarded with substantial awards.
 
 
 # Detection Results on SCUT-CTW1500
