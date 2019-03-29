@@ -4,17 +4,6 @@ Released on December 06, 2017
 
 # Recent Update 
   
-(Nov. 22, 2018)
-
-Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:
-(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
-
-(July 25, 2018)
-
-- We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
-
-- The results from recent papers on the CTW1500 dataset are listed (Note that the table only listed the results from published papers. If your detection results on this dataset is missed, please let me know. )
-
 | Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   |
 |:--------:  | :-----:   | :----:      |  :-----:     | :-----: |
 |Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector)     | 65.2     |  74.3       |    69.5      |   arXiv 1712 |   
@@ -28,7 +17,11 @@ Recognition annotation of the SCUT-CTW1500 can be downloaded through the followi
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 82.9    |  83.4       |    83.2     |  arXiv 1811 |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |
 
-*Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details.
+*Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details. The table only listes the results from published papers.
+
+# Evaluation Script
+
+We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
 
 # Description
 
@@ -62,6 +55,11 @@ The SCUT-CTW1500 dataset can be downloaded through the following link:
 or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
+
+### Recognition Annotation
+
+Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:
+(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
 
 ### Dataset Information
 
