@@ -4,7 +4,7 @@
 
 # News
 
-SCUT-CTW1500 is a text-line based dataset with both English and Chinese instances. If you are insterested in word-level based Engish curve text, we highly recommend you refer to [Total-text](https://github.com/search?q=total-text). In addition, a rencent ICDAR2019 Robust Reading Challenge on Arbitrary-Shaped Text ([ArT](http://rrc.cvc.uab.es/?ch=14)), which is extended from SCUT-CTW1500 and Total-text, is held for stimulating more improvements on the arbitrary-shaped text reading task. We welcome your participant, and the winner will be rewarded with substantial awards.
+SCUT-CTW1500 is a text-line based dataset with both English and Chinese instances. If you are insterested in word-level based Engish curve text, we highly recommend you refer to [Total-text](https://github.com/search?q=total-text). In addition, a recent ICDAR2019 Robust Reading Challenge on Arbitrary-Shaped Text ([ArT](http://rrc.cvc.uab.es/?ch=14)), which is extended from SCUT-CTW1500 and Total-text, is held for stimulating more improvements on the arbitrary-shaped text reading task. We welcome your participant, and the winner will be rewarded with substantial awards.
 
 
 # Detection Results on SCUT-CTW1500
@@ -22,7 +22,7 @@ SCUT-CTW1500 is a text-line based dataset with both English and Chinese instance
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 82.9    |  83.4       |    83.2     |  arXiv 1811 |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |
 
-*Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details. The table only listes the results from published papers.
+*Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details. The table only lists the results from published papers.
 
 # Evaluation Script
 
