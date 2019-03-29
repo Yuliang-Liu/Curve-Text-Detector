@@ -17,6 +17,7 @@ SCUT-CTW1500 is a text-line based dataset with both English and Chinese instance
 |TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |        
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 |
 |MSR [[paper]](https://arxiv.org/abs/1901.02596)| 77.8     |  83.8       |    80.7      |   arXiv 1901 |
+|LSN+CC [[paper]](https://arxiv.org/abs/1903.09837)| 78.8     |  83.2       |    80.8      |   arXiv 1903 |
 |PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)[[code]](https://github.com/WenmuZhou/PSENet.pytorch)  | 79.9    |  82.5      |    81.2     |  arXiv 1806 |
 |TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8     |  83.0       |    81.4      |   TIP 2019 |
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 82.9    |  83.4       |    83.2     |  arXiv 1811 |
