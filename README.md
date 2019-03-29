@@ -15,18 +15,18 @@ Recognition annotation of the SCUT-CTW1500 can be downloaded through the followi
 
 - The results from recent papers on the CTW1500 dataset are listed (Note that the table only listed the results from published papers. If your detection results on this dataset is missed, please let me know. )
 
-| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |   Extra Data    |
-|:--------:  | :-----:   | :----:      |  :-----:     |    :-----:    |
-|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |      -         |
-|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |       -        |
-|SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |        -       |
-|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)        | 85.3     |  67.9       |    75.6     |          PT(S(800K))    |
-|PSENet-4s [[paper]](http://export.arxiv.org/abs/1806.02559)  |  78.13    |  85.49      |    79.29     |   PT(IC15(1K)+ MLT(9K))     |
-|PSENet-2s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.3     |  81.95      |    80.6     |   PT(IC15(1K)+ MLT(9K))          |
-|PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.89    |  82.50       |    81.17     |   PT(IC15(1K)+ MLT(9K))          |
+| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |   
+|:--------:  | :-----:   | :----:      |  :-----:     |
+|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |      
+|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |      
+|SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |      
+|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |          
+|PSENet-4s [[paper]](http://export.arxiv.org/abs/1806.02559)[[code]](https://github.com/WenmuZhou/PSENet.pytorch)  |  78.13    |  85.49      |    79.29     |   
+|PSENet-2s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.3     |  81.95      |    80.6     |   
+|PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.89    |  82.50       |    81.17     |  
 
 
-*PT: pretrained data. S: synthesize data. PA: private data. PB (or name): public data.
+*Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details.
 
 # Description
 
