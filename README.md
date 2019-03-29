@@ -15,16 +15,16 @@ Recognition annotation of the SCUT-CTW1500 can be downloaded through the followi
 
 - The results from recent papers on the CTW1500 dataset are listed (Note that the table only listed the results from published papers. If your detection results on this dataset is missed, please let me know. )
 
-| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |   
-|:--------:  | :-----:   | :----:      |  :-----:     |
-|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |      
-|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |      
-|SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |      
-|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |          
-|PSENet-4s [[paper]](http://export.arxiv.org/abs/1806.02559)[[code]](https://github.com/WenmuZhou/PSENet.pytorch)  |  78.13    |  85.49      |    79.29     |   
-|PSENet-2s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.3     |  81.95      |    80.6     |   
-|PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.89    |  82.50       |    81.17     |  
-
+| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   |
+|:--------:  | :-----:   | :----:      |  :-----:     | :-----: |
+|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |   arXiv 1712 |   
+|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |   arXiv 1712 |  
+|SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   
+|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |        
+|CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 |
+|TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8     |  83.0       |    81.4      |   TIP 2019 |
+|PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)[[code]](https://github.com/WenmuZhou/PSENet.pytorch)  | 79.89    |  82.50       |    81.17     |  arXiv 1806 |
+|PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |
 
 *Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details.
 
