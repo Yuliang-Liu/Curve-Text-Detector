@@ -26,6 +26,8 @@ SCUT-CTW1500 is a text-line based dataset with both English and Chinese instance
 
 *Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. Please refer to each paper for the details. The table only lists the results from published papers.
 
+[TIoU-metric](https://github.com/Yuliang-Liu/TIoU-metric) maybe more reasonable to evaluate curved text detection, which is now supporting curved text evaluation. [[link]](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou)
+
 # Evaluation Script
 
 We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
