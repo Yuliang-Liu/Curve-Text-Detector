@@ -24,7 +24,7 @@ Text detection is far different from object dection as every tiny part of the te
 |PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6|
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 82.9    |  83.4       |    83.2     |  arXiv 1811 |-|
 |CRAFT [[paper]](https://arxiv.org/abs/1904.01941) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
-|PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |-|
+|PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
 
 *Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. () represents the detection result is given by the author and evaluated by [TIoU-metric](https://github.com/Yuliang-Liu/TIoU-metric).
 
