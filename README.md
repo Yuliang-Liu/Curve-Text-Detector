@@ -1,32 +1,37 @@
 # Curve-Text-Detector
 
-Released on December 06, 2017
+(Released on December 06, 2017)
 
-# Recent Update 
-  
-(Nov. 22, 2018)
+# News
 
-Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:
-(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
-
-(July 25, 2018)
-
-- We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md.
-
-- The results from recent papers on the CTW1500 dataset are listed (Note that the table only listed the results from published papers. If your detection results on this dataset is missed, please let me know. )
-
-| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |   Extra Data    |
-|:--------:  | :-----:   | :----:      |  :-----:     |    :-----:    |
-|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)     | 65.2     |  74.3       |    69.5      |      -         |
-|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)| 69.8     |  74.3       |    73.4      |       -        |
-|SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |        -       |
-|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)        | 85.3     |  67.9       |    75.6     |          PT(S(800K))    |
-|PSENet-4s [[paper]](http://export.arxiv.org/abs/1806.02559)  |  78.13    |  85.49      |    79.29     |   PT(IC15(1K)+ MLT(9K))     |
-|PSENet-2s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.3     |  81.95      |    80.6     |   PT(IC15(1K)+ MLT(9K))          |
-|PSENet-1s [[paper]](http://export.arxiv.org/abs/1806.02559)  | 79.89    |  82.50       |    81.17     |   PT(IC15(1K)+ MLT(9K))          |
+SCUT-CTW1500 is a text-line based dataset with both English and Chinese instances. If you are insterested in word-level based Engish curve text, we highly recommend you refer to [Total-text](https://github.com/cs-chan/Total-Text-Dataset). In addition, a recent ICDAR2019 Robust Reading Challenge on Arbitrary-Shaped Text ([ArT](http://rrc.cvc.uab.es/?ch=14)), which is extended from SCUT-CTW1500 and Total-text, is held for stimulating more improvements on the arbitrary-shaped text reading task. We welcome your participant, and the winner will be rewarded with substantial awards.
 
 
-*PT: pretrained data. S: synthesize data. PA: private data. PB (or name): public data.
+# Detection Results on SCUT-CTW1500
+
+Text detection is far different from object dection as every tiny part of the text instance maybe valuable. Recently, [TIoU-metric](https://github.com/Yuliang-Liu/TIoU-metric) provides an improved version from pascal voc metric to meet the requirement of text detection, which is now supporting curved text evaluation. Evaluation script can be found on [[link]](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou).
+
+| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   | [TIoU-Hmean](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (%) |
+|:--------:  | :-----:   | :----:      |  :-----:     | :-----: | :-----: |
+|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector)     | 65.2     |  74.3       |    69.5      |   arXiv 1712 |   - |
+|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector) | 69.8     |  74.3       |    73.4      |   arXiv 1712 |  47.5 |
+|SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   - |
+|TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |-|
+|CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 | -|
+|MSR [[paper]](https://arxiv.org/abs/1901.02596)| 77.8 <br > (79.0)     |  83.8 <br > (84.1)       |    80.7<br > (81.5)      |   arXiv 1901 |-<br > (61.3)|
+|LOMO [[paper]](https://arxiv.org/abs/1904.06535) <br > LOMO MS| 69.6<br >76.5     |  89.2<br >85.7       |    78.4<br >80.8      |   CVPR 2019 |-|
+|LSN+CC [[paper]](https://arxiv.org/abs/1903.09837)| 78.8     |  83.2       |    80.8      |   arXiv 1903 |-|
+|TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8<br> (81.6)     |  83.0<br > (82.4)      |    81.4<br >(82.0)      |   TIP 2019 |-<br > (61.4)|
+|PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6|
+|TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 82.9    |  83.4       |    83.2     |  arXiv 1811 |-|
+|CRAFT [[paper]](https://arxiv.org/abs/1904.01941) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
+|PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
+
+*Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. () represents the detection result is given by the author and evaluated by [TIoU-metric](https://github.com/Yuliang-Liu/TIoU-metric).
+
+# Evaluation Script
+
+We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md. An easier way is to use [TIoU curved text evaluation script](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (The origin result of TIoU script is the same as the result from this evaluation scipt).
 
 # Description
 
@@ -60,6 +65,11 @@ The SCUT-CTW1500 dataset can be downloaded through the following link:
 or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
+
+### Recognition Annotation
+
+Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:
+(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
 
 ### Dataset Information
 
