@@ -24,7 +24,7 @@ Text detection is far different from object dection as every tiny part of the te
 |LSE [[paper]](http://jiaya.me/papers/textdetection_cvpr19.pdf)| 77.8     |  82.7       |    80.1      |   CVPR 2019 | -|
 |TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8<br> (81.6)     |  83.0<br > (82.4)      |    81.4<br >(82.0)      |   TIP 2019 | (61.4)|
 |PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6|
-|TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 82.9<br> (83.2)   |  83.4<br> (82.7)       |    83.2<br> (82.9)     |  arXiv 1811 |62.8|
+|TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 83.4  |  82.9       |    83.2     |  arXiv 1811 |64.2|
 |CRAFT [[paper]](https://arxiv.org/abs/1904.01941) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
 |TextCohesion [[paper]](https://arxiv.org/pdf/1904.12640.pdf)| 84.7    |  88.0       |    86.3     |  arXiv 1904 |-|
