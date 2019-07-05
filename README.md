@@ -19,13 +19,13 @@ Text detection is far different from object dection as every tiny part of the te
 |SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   - |
 |TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |-|
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 | -|
-|MSR [[paper]](https://arxiv.org/abs/1901.02596)| 79.0    |  84.1      |    81.5      |   arXiv 1901 | 61.3 |
 |LOMO [[paper]](https://arxiv.org/abs/1904.06535) <br > LOMO MS| 69.6<br >76.5     |  89.2<br >85.7       |    78.4<br >80.8      |   CVPR 2019 |-|
-|LSN+CC [[paper]](https://arxiv.org/abs/1903.09837)| 78.8     |  83.2       |    80.8      |   arXiv 1903 |60.0|
 |LSE [[paper]](http://jiaya.me/papers/textdetection_cvpr19.pdf)| 77.8     |  82.7       |    80.1      |   CVPR 2019 | -|
 |ATRR [[paper]](https://arxiv.org/pdf/1905.05980.pdf)| 80.2     |  80.1       |    80.1      |   CVPR 2019 | 58.0 |
+|LSN+CC [[paper]](https://arxiv.org/abs/1903.09837)| 78.8     |  83.2       |    80.8      |   arXiv 1903 |60.0|
 |ICG [[paper]](https://www.sciencedirect.com/science/article/abs/pii/S0031320319302511)| 79.8     |  82.8       |    81.3      |   PR 2019 | - |
 |TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8     |  83.0      |    81.4      |   TIP 2019 | 61.4 |
+|MSR [[paper]](https://arxiv.org/abs/1901.02596)| 79.0    |  84.1      |    81.5      |   arXiv 1901 | 61.3 |
 |PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6|
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 83.4  |  82.9       |    83.2     |  arXiv 1811 |64.2|
 |CRAFT [[paper]](https://arxiv.org/abs/1904.01941) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
