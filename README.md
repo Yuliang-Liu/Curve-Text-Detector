@@ -14,8 +14,8 @@ Text detection is far different from object dection as every tiny part of the te
 
 | Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   | [TIoU-Hmean](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (%) |
 |:--------:  | :-----:   | :----:      |  :-----:     | :-----: | :-----: |
-|Proposed CTD [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector)     | 65.2     |  74.3       |    69.5      |   arXiv 1712 |   - |
-|Proposed CTD+TLOC [[paper]](https://arxiv.org/abs/1712.02170)[[code]](https://github.com/Yuliang-Liu/Curve-Text-Detector) | 69.8     |  74.3       |    73.4      |   arXiv 1712 |  47.5 |
+|Proposed CTD [[paper]](https://www.sciencedirect.com/science/article/pii/S0031320319300664)     | 65.2     |  74.3       |    69.5      |   PR 2019 |   - |
+|Proposed CTD+TLOC [[paper]](https://www.sciencedirect.com/science/article/pii/S0031320319300664) | 69.8     |  74.3       |    73.4      |   PR 2019 |  47.5 |
 |SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   - |
 |TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |-|
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 | -|
@@ -146,11 +146,14 @@ Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or 
 # Citation
 If you find our method or the dataset useful for your research, please cite 
 ```
-@article{yuliang2017detecting,
-  title={Detecting Curve Text in the Wild: New Dataset and New Solution},
-  author={Yuliang, Liu and Lianwen, Jin and Shuaitao, Zhang and Sheng, Zhang},
-  journal={arXiv preprint arXiv:1712.02170},
-  year={2017}
+@article{liu2019curved,
+  title={Curved scene text detection via transverse and longitudinal sequence connection},
+  author={Liu, Yuliang and Jin, Lianwen and Zhang, Shuaitao and Luo, Canjie and Zhang, Sheng},
+  journal={Pattern Recognition},
+  volume={90},
+  pages={337--345},
+  year={2019},
+  publisher={Elsevier}
 }
 ```
 
