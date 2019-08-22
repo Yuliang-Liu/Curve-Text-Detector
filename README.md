@@ -12,10 +12,10 @@
 
 Text detection is far different from object dection as every tiny part of the text instance maybe valuable. Recently, [TIoU-metric](https://github.com/Yuliang-Liu/TIoU-metric) provides an improved version from pascal voc metric to meet the requirement of text detection, which is now supporting curved text evaluation. Evaluation script can be found on [[link]](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou).
 
-| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   | [TIoU-Hmean](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (%) |
-|:--------:  | :-----:   | :----:      |  :-----:     | :-----: | :-----: |
+| Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   | [TIoU-Hmean](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (%) | FPS |
+|:--------:  | :-----:   | :----:      |  :-----:     | :-----: | :-----: | :-----: |
 |Proposed CTD [[paper]](https://www.sciencedirect.com/science/article/pii/S0031320319300664)     | 65.2     |  74.3       |    69.5      |   PR 2019 |   - |
-|Proposed CTD+TLOC [[paper]](https://www.sciencedirect.com/science/article/pii/S0031320319300664) | 69.8     |  74.3       |    73.4      |   PR 2019 |  47.5 |
+|Proposed CTD+TLOC [[paper]](https://www.sciencedirect.com/science/article/pii/S0031320319300664) | 69.8     |  74.3       |    73.4      |   PR 2019 |  47.5 | 13.3 |
 |SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   - |
 |TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |-|
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 | -|
@@ -29,6 +29,7 @@ Text detection is far different from object dection as every tiny part of the te
 |PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6|
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 83.4  |  82.9       |    83.2     |  arXiv 1811 |64.2|
 |CRAFT [[paper]](https://arxiv.org/abs/1904.01941) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
+|PSENet_v2 [[paper]](https://arxiv.org/pdf/1908.05900v1.pdf) | 81.2 | 86.4 | 83.7 | ICCV 2019 | - | 39.8 |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
 |TextCohesion [[paper]](https://arxiv.org/pdf/1904.12640.pdf)| 84.7    |  88.0       |    86.3     |  arXiv 1904 |-|
 
