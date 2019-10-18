@@ -8,7 +8,7 @@ or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
 ### Recognition Annotation
-Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
+Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:(https://drive.google.com/file/d/18xYimLq8s7kLMuy-ILeeg2qMSzuj92nW/view?usp=sharing) (OneDrive)
 
 ## Dataset Information
 
