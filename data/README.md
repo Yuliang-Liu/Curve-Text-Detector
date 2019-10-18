@@ -7,6 +7,8 @@ The SCUT-CTW1500 dataset can be downloaded through the following link:
 or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
+### Recognition Annotation
+Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:(https://1drv.ms/u/s!Am3wqyDHs7r0hj-PKY5NvdZSyGoV) (OneDrive)
 
 ## Dataset Information
 
