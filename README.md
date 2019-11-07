@@ -16,6 +16,7 @@
 |Proposed CTD+TLOC [[paper]](https://www.sciencedirect.com/science/article/pii/S0031320319300664) | 69.8     |  74.3       |    73.4      |   PR 2019 |  47.5 | 13.3 |
 |SLPR [[paper]](https://arxiv.org/abs/1801.09969)             | 70.1     |  80.1       |    74.8      |   arXiv 1801 |   - |
 |TextSnake [[paper]](https://arxiv.org/abs/1807.01544)[[code]](https://github.com/princewang1994/TextSnake.pytorch)        | 85.3     |  67.9       |    75.6     |   ECCV 2018   |-|
+|Qin et al. [[paper]](https://arxiv.org/pdf/1908.09990.pdf)| 78.2     |  73.8       |    76.0      |   arXiv 1908 | -|
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 | -|
 |LOMO [[paper]](https://arxiv.org/abs/1904.06535) <br > LOMO MS| 69.6<br >76.5     |  89.2<br >85.7       |    78.4<br >80.8      |   CVPR 2019 |-|
 |LSE [[paper]](http://jiaya.me/papers/textdetection_cvpr19.pdf)| 77.8     |  82.7       |    80.1      |   CVPR 2019 | -|
