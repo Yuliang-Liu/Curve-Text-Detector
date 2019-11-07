@@ -8,9 +8,7 @@
 
 * Total-Text and SCUT-CTW1500 are now part of the training set of the largest curved text dataset - [ArT](http://rrc.cvc.uab.es/?ch=14) (Arbitrary-Shaped Text dataset). In order to retain the validity of future benchmarking on both mentioned datasets, the **test-set images** of CTW1500 should be removed (with the corresponding ID provided in CTW1500_ID_vs_ArT_ID.txt) from the ArT dataset shall one intend to leverage the extra training data from the ArT dataset. We count on the trust of the research community to perform such removal operation to attain the fairness of the benchmarking.
 
-# Detection Results on SCUT-CTW1500
-
-Text detection is far different from object dection as every tiny part of the text instance maybe valuable. Recently, [TIoU-metric](https://github.com/Yuliang-Liu/TIoU-metric) provides an improved version from pascal voc metric to meet the requirement of text detection, which is now supporting curved text evaluation. Evaluation script can be found on [[link]](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou).
+# SCUT-CTW1500 Leaderboard
 
 | Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   | [TIoU-Hmean](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (%) | FPS |
 |:--------:  | :-----:   | :----:      |  :-----:     | :-----: | :-----: | :-----: |
@@ -41,18 +39,6 @@ Text detection is far different from object dection as every tiny part of the te
 
 We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md. An easier way is to use [TIoU curved text evaluation script](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (The origin result of TIoU script is the same as the result from this evaluation scipt).
 
-# Description
-
-Curved text are very common in our real-world. For examples, text in most kinds of columnar objects (bottles, stone piles, etc.), spherical objects, plicated plane (clothes, streamer, etc.), coins, logos, signboard and so on. Current datasets have very little curved text, and it is defective to label such text with quadrangle let alone rectangle. Curved bounding box has three remarkable advantages:
-<div align=center><img src="images/1-1.jpg" width="50%" ></div>
-<div align=center><img src="images/1-2.jpg" width="50%" ></div>
-<div align=center><img src="images/1-3.jpg" width="50%"></div>
-
-* Avoid needless overlap
-
-* Less background noise
-
-* Avoid multiple text lines
 
 # Clone the Curve-Text-Detector repository
 
@@ -74,9 +60,6 @@ or (https://1drv.ms/u/s!Aplwt7jiPGKilH4XzZPoKrO7Aulk) (OneDrive)
 
 unzip the file in ROOT/data/ 
 
-### Recognition Annotation
-
-Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link: [UPDATING]
 
 ### Dataset Information
 
@@ -130,15 +113,6 @@ To visulize the ctd+tloc, simply uncomment ctd in the last of the test.prototxt,
 </tr></table>
 
 If you are insterested in it, you can train your own model to test. Because training doesn't require so much time, we don't upload our own model (Of course, you can email me for it). 
-
-# Long side interpolation (LSI) 
-Visualization of LSI. By LSI, our CTD can be easily trained with rectangular or quadrilater bounding boxes without extra manual efforts. Based on our recent research, the stronger supervision can also effectively improve the performance.
-
-<div align=center><img src="images/in1.jpg" width="50%" ></div>
-
-# Detecting Results 
-<!-- <img src="images/table.png" width="100%"> -->
-<img src="images/detect_results.png" width="100%">
 
 
 # Labeling tool 
