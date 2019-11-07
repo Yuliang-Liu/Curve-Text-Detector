@@ -22,7 +22,7 @@
 |LSE [[paper]](http://jiaya.me/papers/textdetection_cvpr19.pdf)| 77.8     |  82.7       |    80.1      |   CVPR 2019 | -|
 |ATRR [[paper]](https://arxiv.org/pdf/1905.05980.pdf)| 80.2     |  80.1       |    80.1      |   CVPR 2019 | 58.0 |
 |LSN+CC [[paper]](https://arxiv.org/abs/1903.09837)| 78.8     |  83.2       |    80.8      |   arXiv 1903 |60.0|
-|SAST [[paper]](http://delivery.acm.org/10.1145/3360000/3350988/p1277-wang.pdf?ip=129.127.145.232&id=3350988&acc=OA&key=65D80644F295BC0D%2E001A23AA3BABC648%2E4D4702B0C3E38B35%2E166E25130A976506&__acm__=1573107294_6147cbbe22189ecb67c0d1f1be453062)| 77.1     |  85.3       |    81.0      |   ACM MM 2019 |27.6|
+|SAST [[paper]](http://delivery.acm.org/10.1145/3360000/3350988/p1277-wang.pdf?ip=129.127.145.232&id=3350988&acc=OA&key=65D80644F295BC0D%2E001A23AA3BABC648%2E4D4702B0C3E38B35%2E166E25130A976506&__acm__=1573107294_6147cbbe22189ecb67c0d1f1be453062)| 77.1     |  85.3       |    81.0      |   ACM MM 2019 |- | 27.6|
 |ICG [[paper]](https://www.sciencedirect.com/science/article/abs/pii/S0031320319302511)| 79.8     |  82.8       |    81.3      |   PR 2019 | - |
 |TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)| 79.8     |  83.0      |    81.4      |   TIP 2019 | 61.4 |
 |MSR [[paper]](https://arxiv.org/abs/1901.02596)| 79.0    |  84.1      |    81.5      |   IJCAI 2019 | 61.3 |
