@@ -10,7 +10,7 @@ unzip the file in ROOT/data/
 ### Update
 We updated the recognition annotations to ensure consistency between the recognition annotations and the detected annotation instances.
 ### Recognition Annotation
-Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:(https://drive.google.com/file/d/1tHf-n86z4zFRaRNEc02EO-hZINZqkQpz/view?usp=sharing) (GoogleDrive)
+Recognition annotation of the SCUT-CTW1500 can be downloaded through the following link:[[GoogleDrive]](https://drive.google.com/file/d/1tHf-n86z4zFRaRNEc02EO-hZINZqkQpz/view?usp=sharing) [[BaiduYun]](https://pan.baidu.com/s/1MM7a-LX-ZBfNmb00iyUGTQ)
 
 ## Dataset Information
 
