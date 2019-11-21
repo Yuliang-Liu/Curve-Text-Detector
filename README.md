@@ -4,7 +4,7 @@
 
 # News
 
-* End-to-end annotations of SCUT-CTW1500 have been updated (see data/README.md). Note that the new annotations have a little difference from original detection annotations, and thus the end-to-end annotations are only used for end-to-ed evaluation purpose.
+* End-to-end annotations of SCUT-CTW1500 have been updated (see data/README.md). Note that the new annotations have a little difference from original detection annotations, and thus the end-to-end annotations are only used for end-to-end evaluation purpose. 
 
 * SCUT-CTW1500 is a text-line based dataset with both English and Chinese instances. If you are insterested in word-level based Engish curve text, we highly recommend you refer to [Total-text](https://github.com/cs-chan/Total-Text-Dataset). In addition, a recent ICDAR2019 Robust Reading Challenge on Arbitrary-Shaped Text ([ArT](http://rrc.cvc.uab.es/?ch=14)), which is extended from SCUT-CTW1500 and Total-text, is held for stimulating more improvements on the arbitrary-shaped text reading task. The competition results of ArT can be found on [ICDAR2019-ArT](https://rrc.cvc.uab.es/files/ICDAR2019-ArT1.pdf).
 
