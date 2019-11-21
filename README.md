@@ -10,7 +10,7 @@
 
 * Total-Text and SCUT-CTW1500 are now part of the training set of the largest curved text dataset - [ArT](http://rrc.cvc.uab.es/?ch=14) (Arbitrary-Shaped Text dataset). In order to retain the validity of future benchmarking on both mentioned datasets, the **test-set images** of CTW1500 should be removed (with the corresponding ID provided in CTW1500_ID_vs_ArT_ID.txt) from the ArT dataset shall one intend to leverage the extra training data from the ArT dataset. We count on the trust of the research community to perform such removal operation to attain the fairness of the benchmarking.
 
-# SCUT-CTW1500 Leaderboard
+# SCUT-CTW1500 Detection Leaderboard
 
 | Method     |  Recall (%)  |  Precision (%)  |   Hmean (%)     |    Publication   | [TIoU-Hmean](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (%) | FPS |
 |:--------:  | :-----:   | :----:      |  :-----:     | :-----: | :-----: | :-----: |
