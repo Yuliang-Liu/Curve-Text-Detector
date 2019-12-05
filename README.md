@@ -21,7 +21,7 @@
 |Qin et al. [[paper]](https://arxiv.org/pdf/1908.09990.pdf)| 78.2     |  73.8       |    76.0      |   ICDAR 2019 | -|
 |CSE [[paper]](https://arxiv.org/abs/1903.08836?context=cs.CV)| 76.1     |  78.7       |    77.4      |   CVPR 2019 | -|
 |LOMO [[paper]](https://arxiv.org/abs/1904.06535) <br > LOMO MS| 69.6<br >76.5     |  89.2<br >85.7       |    78.4<br >80.8      |   CVPR 2019 |-|
-|LSE [[paper]](http://jiaya.me/papers/textdetection_cvpr19.pdf)| 77.8     |  82.7       |    80.1      |   CVPR 2019 | -|
+|SAE [[paper]](http://jiaya.me/papers/textdetection_cvpr19.pdf)| 77.8     |  82.7       |    80.1      |   CVPR 2019 | -|
 |ATRR [[paper]](https://arxiv.org/pdf/1905.05980.pdf)| 80.2     |  80.1       |    80.1      |   CVPR 2019 | 58.0 |
 |LSN+CC [[paper]](https://arxiv.org/abs/1903.09837)| 78.8     |  83.2       |    80.8      |   arXiv 1903 |60.0|
 |SAST [[paper]](http://delivery.acm.org/10.1145/3360000/3350988/p1277-wang.pdf?ip=129.127.145.232&id=3350988&acc=OA&key=65D80644F295BC0D%2E001A23AA3BABC648%2E4D4702B0C3E38B35%2E166E25130A976506&__acm__=1573107294_6147cbbe22189ecb67c0d1f1be453062)| 77.1     |  85.3       |    81.0      |   ACM MM 2019 |- | 27.6|
