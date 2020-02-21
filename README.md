@@ -44,6 +44,15 @@
 
 *Note that training data and backbone of different methods may not be the same, and thus the comparison is not strictly fair. 
 
+# SCUT-CTW1500 End-to-end Leaderboard
+
+| Method     |  Hmean-None (%)  | Hmean-Full (%)   |    Publication   |   FPS   |
+|:--------:  | :-----:      |  :-----:        | :-----:          | :-----: |
+|TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf)     | 39.7     |  72.4   |    ICCV 2019      | - |
+|TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf)     | 57.0    |  -   |    AAAI 2020      | <10 (Volta) |
+
+*None represents lexicon-free.
+
 # Evaluation Script
 
 We provide a brief evaluation script for researches to evaluate their own methods on the CTW1500 dataset. The instruction and details are given in tools/ctw1500_evaluation/Readme.md. An easier way is to use [TIoU curved text evaluation script](https://github.com/Yuliang-Liu/TIoU-metric/tree/master/curved-tiou) (The origin result of TIoU script is the same as the result from this evaluation scipt).
