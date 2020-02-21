@@ -51,7 +51,7 @@
 |TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf)     | 39.7     |  72.4   |    ICCV 2019      | - |
 |TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf)     | 57.0    |  -   |    AAAI 2020      | <10 (Volta) |
 
-*None represents lexicon-free.
+*[e2e evaluation script](https://github.com/Yuliang-Liu/curved_e2e_metric)
 
 # Evaluation Script
 
