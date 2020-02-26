@@ -31,6 +31,7 @@
 |MSR [[paper]](https://arxiv.org/abs/1901.02596)| 79.0    |  84.1      |    81.5      |   IJCAI 2019 | 61.3 |
 |PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6| 3.9 |
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 83.4  |  82.9       |    83.2     |  arXiv 1811 |64.2|
+|Relation [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8977995)  | 80.9  |  85.8       |    83.3     |  ICDAR 2019 | |
 |DB-ResNet-50 [[paper]](https://arxiv.org/pdf/1911.08947.pdf)[[code]](https://github.com/MhLiao/DB) | 80.2 | 86.9 | 83.4 | AAAI 2020 | - | 22 |
 |CRAFT [[paper]](https://arxiv.org/abs/1904.01941)[[code]](https://github.com/clovaai/CRAFT-pytorch) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
 |TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf) | 82.8 | 84.5 | 83.6 | ICCV 2019 | - |
