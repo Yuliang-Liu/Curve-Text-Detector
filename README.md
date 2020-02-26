@@ -35,7 +35,7 @@
 |DB-ResNet-50 [[paper]](https://arxiv.org/pdf/1911.08947.pdf)[[code]](https://github.com/MhLiao/DB) | 80.2 | 86.9 | 83.4 | AAAI 2020 | - | 22 |
 |CRAFT [[paper]](https://arxiv.org/abs/1904.01941)[[code]](https://github.com/clovaai/CRAFT-pytorch) | 81.1 | 86.0 | 83.5 | CVPR 2019 |61.0|
 |TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf) | 82.8 | 84.5 | 83.6 | ICCV 2019 | - |
-|TextTubes [[paper]](https://arxiv.org/abs/1904.01941) | 80.0 | 87.65 | 83.65 | arXiv 1912 | - |
+|TextTubes [[paper]](https://arxiv.org/pdf/1912.08990.pdf) | 80.0 | 87.65 | 83.65 | arXiv 1912 | - |
 |PSENet_v2 [[paper]](https://arxiv.org/pdf/1908.05900v1.pdf)[[unofficial code]](https://github.com/WenmuZhou/PAN.pytorch) | 81.2 | 86.4 | 83.7 | ICCV 2019 | - | 39.8 |
 |SA-TEXT MS [[paper]](https://arxiv.org/pdf/1911.07046.pdf) | 85.4 | 83.3 | 84.4 | arXiv 1911 | - | - |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
