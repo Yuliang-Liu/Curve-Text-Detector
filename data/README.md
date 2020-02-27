@@ -1,4 +1,4 @@
-# Update
+# Annotations-v2 (released on 2/27/2020)
 
 New annotations. We add point annotation for each English character. Download links:
 
