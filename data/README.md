@@ -1,3 +1,11 @@
+# Update
+
+New annotations. We add point annotation for each English character. Download links:
+
+(https://pan.baidu.com/s/1Im3XmXs6W_5KGW543XX1MA PASSWORD: 7jwi)
+
+or (https://drive.google.com/open?id=13sNLo3s8hO8_2ldkVapL7Q7LRBp8Yr-g) (Google Drive)
+
 # Description
 
 The SCUT-CTW1500 dataset can be downloaded through the following link:
