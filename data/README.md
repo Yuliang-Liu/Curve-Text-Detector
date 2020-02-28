@@ -6,7 +6,7 @@ New annotations. We add point annotation for each English character. Download li
 
 or (https://drive.google.com/open?id=13sNLo3s8hO8_2ldkVapL7Q7LRBp8Yr-g) (Google Drive)
 
-<img src="../images/example.png" width="81%">
+<img src="../images/newannos.png" width="81%">
 
 Example:
 
