@@ -40,6 +40,7 @@
 |TextTubes [[paper]](https://arxiv.org/pdf/1912.08990.pdf) | 80.0 | 87.65 | 83.65 | arXiv 1912 | - |
 |PSENet_v2 [[paper]](https://arxiv.org/pdf/1908.05900v1.pdf)[[unofficial code]](https://github.com/WenmuZhou/PAN.pytorch) | 81.2 | 86.4 | 83.7 | ICCV 2019 | - | 39.8 |
 |SA-TEXT MS [[paper]](https://arxiv.org/pdf/1911.07046.pdf) | 85.4 | 83.3 | 84.4 | arXiv 1911 | - | - |
+|PuzzleNet [[paper]](https://arxiv.org/abs/2002.11371) | 84.7 | 84.1 | 84.4 | arXiv 2002 | - | - |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
 |TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf)| 81.8    |  88.8       |    85.2     |  AAAI 2020 |-|
 |TextCohesion [[paper]](https://arxiv.org/pdf/1904.12640.pdf)| 84.7    |  88.0       |    86.3     |  arXiv 1904 |-|
