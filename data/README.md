@@ -8,6 +8,24 @@ or (https://drive.google.com/open?id=13sNLo3s8hO8_2ldkVapL7Q7LRBp8Yr-g) (Google 
 
 <img src="../images/example.png" width="81%">
 
+Example:
+
+```
+<Annotations>
+|_ <image file="0200.jpg">
+|  |_ <box height="197" left="131" top="49" width="399">
+|  |  |_ <label>OLATHE</label>
+|  |  |_ <segs>131,58,208,49,279,56,346,76,412,101,473,141,530,192,510,246,458,210,405,175,350,151,291,137,228,133,165,134</segs>
+|  |  |_ <pts x="183" y="95" />
+|  |  |_ <pts x="251" y="89" />
+|  |  |_ <pts x="322" y="107" />
+|  |  |_ <pts x="383" y="124" />
+|  |  |_ <pts x="441" y="161" />
+|  |  |_ <pts x="493" y="201" />
+|  |_ </box>
+|_ </image>
+</Annotataions>
+```
 # Description
 
 The SCUT-CTW1500 dataset can be downloaded through the following link:
