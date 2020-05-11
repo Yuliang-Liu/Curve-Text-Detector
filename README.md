@@ -56,7 +56,7 @@
 |TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf) |SynText800k + CTW1500    | -  |  57.0   |    AAAI 2020      | <10 (Volta) |
 |ABCNet [[paper]](https://arxiv.org/abs/2002.10200)[[code]](https://github.com/Yuliang-Liu/bezier_curve_text_spotting) |SynText150k + CTW1500   | 45.2  |  57.3   |  CVPR 2020  | 15.6 (2080 ti) |
 
-*[e2e evaluation script](https://github.com/Yuliang-Liu/curved_e2e_metric)
+*[e2e evaluation script](https://github.com/aim-uofa/AdelaiDet)
 
 # Evaluation Script
 
