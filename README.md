@@ -30,6 +30,7 @@
 |SAST [[paper]](http://delivery.acm.org/10.1145/3360000/3350988/p1277-wang.pdf?ip=129.127.145.232&id=3350988&acc=OA&key=65D80644F295BC0D%2E001A23AA3BABC648%2E4D4702B0C3E38B35%2E166E25130A976506&__acm__=1573107294_6147cbbe22189ecb67c0d1f1be453062)| 77.1     |  85.3       |    81.0      |   ACM MM 2019 |- | 27.6|
 |ICG [[paper]](https://www.sciencedirect.com/science/article/abs/pii/S0031320319302511)| 79.8     |  82.8       |    81.3      |   PR 2019 | - |
 |TextField [[paper]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8648420)[[code]](https://github.com/YukangWang/TextField)| 79.8     |  83.0      |    81.4      |   TIP 2019 | 61.4 |
+|ABCNet [[paper]](https://arxiv.org/abs/2002.10200)[[code]](https://github.com/aim-uofa/AdelaiDet) |  79.1  |   83.8     |    81.4      |  CVPR2020 | - | 9.5 |
 |MSR [[paper]](https://arxiv.org/abs/1901.02596)| 79.0    |  84.1      |    81.5      |   IJCAI 2019 | 61.3 |
 |PSENet-1s [[paper]](https://arxiv.org/abs/1903.12473)[[code]](https://github.com/whai362/PSENet)  | 79.7    |  84.8      |    82.2     |  CVPR 2019 |60.6| 3.9 |
 |TextMountain [[paper]](https://arxiv.org/pdf/1811.12786.pdf)  | 83.4  |  82.9       |    83.2     |  arXiv 1811 |64.2|
@@ -39,6 +40,7 @@
 |TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf) | 82.8 | 84.5 | 83.6 | ICCV 2019 | - |
 |TextTubes [[paper]](https://arxiv.org/pdf/1912.08990.pdf) | 80.0 | 87.65 | 83.65 | arXiv 1912 | - |
 |PSENet_v2 [[paper]](https://arxiv.org/pdf/1908.05900v1.pdf)[[unofficial code]](https://github.com/WenmuZhou/PAN.pytorch) | 81.2 | 86.4 | 83.7 | ICCV 2019 | - | 39.8 |
+|ContourNet [[paper]](https://arxiv.org/abs/2004.04940)[[code]](https://github.com/wangyuxin87/ContourNet) | 84.1 | 83.7 | 83.9 | CVPR 2020 | - | 4.5 |
 |SA-TEXT MS [[paper]](https://arxiv.org/pdf/1911.07046.pdf) | 85.4 | 83.3 | 84.4 | arXiv 1911 | - | - |
 |PuzzleNet [[paper]](https://arxiv.org/abs/2002.11371) | 84.7 | 84.1 | 84.4 | arXiv 2002 | - | - |
 |PAN Mask R-CNN [[paper]](https://arxiv.org/pdf/1811.09058.pdf)| 83.2    |  86.8       |    85.0     |  WACV 2019 |65.2|
@@ -50,11 +52,11 @@
 
 # SCUT-CTW1500 End-to-end Leaderboard
 
-| Method     | Dataset | AllCount-Hmean (%) | Wordspotting-Hmean (%)  |   Publication   |   FPS   |
-|:--------:  | :-----: | :-----:      |  :-----:        | :-----:          | :-----: |
-|TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf) | SynText800k + CTW1500     | 39.7     |  -   |    ICCV 2019      | - |
-|TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf) |SynText800k + CTW1500    | -  |  57.0   |    AAAI 2020      | <10 (Volta) |
-|ABCNet [[paper]](https://arxiv.org/abs/2002.10200)[[code]](https://github.com/Yuliang-Liu/bezier_curve_text_spotting) |SynText150k + CTW1500   | 45.2  |  57.3   |  CVPR 2020  | 15.6 (2080 ti) |
+| Method     | Dataset | E2E-Hmean (%) | Wordspotting-Hmean (%)  |   Publication   |  
+|:--------:  | :-----: | :-----:      |  :-----:        | :-----:          | 
+|TextDragon [[paper]](http://openaccess.thecvf.com/content_ICCV_2019/papers/Feng_TextDragon_An_End-to-End_Framework_for_Arbitrary_Shaped_Text_Spotting_ICCV_2019_paper.pdf) | SynText800k + CTW1500     | 39.7     |  -   |    ICCV 2019      | 
+|TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf) |SynText800k + CTW1500    | -  |  57.0   |    AAAI 2020      |
+|ABCNet [[paper]](https://arxiv.org/abs/2002.10200)[[code]](https://github.com/aim-uofa/AdelaiDet) |SynText150k + CTW1500   | 45.2  |  -  |  CVPR 2020  |
 
 *[e2e evaluation script](https://github.com/aim-uofa/AdelaiDet)
 
