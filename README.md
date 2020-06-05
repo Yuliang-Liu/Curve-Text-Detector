@@ -59,7 +59,7 @@
 |TextPerception [[paper]](https://arxiv.org/pdf/2002.06820.pdf) |SynText800k + CTW1500    | -  |  57.0   |    AAAI 2020      |
 |ABCNet [[paper]](https://arxiv.org/abs/2002.10200)[[code]](https://github.com/aim-uofa/AdelaiDet) |SynText150k + CTW1500   | 45.2  |  -  |  CVPR 2020  |
 
-*[e2e evaluation script](https://github.com/aim-uofa/AdelaiDet)
+*[e2e evaluation script](https://github.com/aim-uofa/AdelaiDet/blob/master/configs/BAText/README.md)
 
 # Evaluation Script
 
