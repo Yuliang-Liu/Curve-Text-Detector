@@ -26,7 +26,7 @@ For both detection and end-to-end evaluation in the updated version, please refe
 
 
 # Info
-The project is outdated and will not be maintained anymore. Original info is kept in [README.mdbk](https://github.com/Yuliang-Liu/Curve-Text-Detector/tree/master/README.mdbk).
+The project is outdated and will not be maintained anymore. Original info is kept in [OLD_README.md](https://github.com/Yuliang-Liu/Curve-Text-Detector/tree/master/OLD_README.md).
 
 
 ## Copyright
